@@ -31,3 +31,13 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# OS
+.DS_Store
+
+# Environment files
+.env
+
+# Docker
+*.pid
+db_data/
