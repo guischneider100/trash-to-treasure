@@ -2,13 +2,19 @@ package com.example.schneider.trash_to_treasure.entity;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "items")
 public class Item {
 
     @Id
@@ -19,7 +25,12 @@ public class Item {
 
     private String description;
 
-    private Integer state; //0: new, 1: used, 2: damaged
+    @Column(name = "photo_url")
+    private String photoUrl;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private ItemCondition condition;
     
     private Double latitude;
 
@@ -30,6 +41,7 @@ public class Item {
     private LocalDateTime postedAt;
 
     @ManyToOne
+    @JoinColumn(name = "posted_by", nullable = false)
     private User postedBy;
 
     public Integer getId() {
@@ -56,12 +68,20 @@ public class Item {
         this.description = description;
     }
 
-    public Integer getState() {
-        return state;
+    public String getPhotoUrl() {
+        return photoUrl;
     }
 
-    public void setState(Integer state) {
-        this.state = state;
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
+    }
+
+    public ItemCondition getCondition() {
+        return condition;
+    }
+
+    public void setCondition(ItemCondition condition) {
+        this.condition = condition;
     }
 
     public Double getLatitude() {

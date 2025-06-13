@@ -8,6 +8,8 @@ public class TrashToTreasureApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(TrashToTreasureApplication.class, args);
+		System.out.println("");
+		System.out.println("*** TRASH TO TREASURE APPLICATION IS RUNNING ***");
 	}
 
 }

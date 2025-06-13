@@ -1,17 +1,16 @@
 # TrashToTreasure
 
 ## File Structure
-*Entity* - representation of DB tables.
-*Repository* - talks with the DB.
-*Service* - rules the workflow of the program.
+*Entity* - holds Java classes that map to database tables.
+*Repository* - contains interfaces that handle database CRUD and queries.
+*Service* - contains business logic, acts as a bridge between controllers and repositories.
 *Controller* - handles HTTP and delegates to service.
-*DTO* - carry data between two parts of a program.
-*Secutiry* - authentication & authorization.
+*Mapper* - convert objects from one type to another. (faster than manual mapping)
+*DTO* - holds objects specifically designed for data transfer, between client and server.
+*Secutiry* - contains classes and configurations related to application security.
 *Exception* - define all custom exception logic.
 
-entity → repository → service → controller
-
-
+Front-end <-> Controller (DTO) <-> Service (DTO) <-> Repository (Entity) <-> DB
 
 
 ## Docker
