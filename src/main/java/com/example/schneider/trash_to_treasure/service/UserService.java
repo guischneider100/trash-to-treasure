@@ -1,5 +1,7 @@
 package com.example.schneider.trash_to_treasure.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.schneider.trash_to_treasure.dto.UserDTO;
@@ -9,6 +11,9 @@ import com.example.schneider.trash_to_treasure.repository.UserRepository;
 
 @Service
 public class UserService {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     
     private final UserRepository userRepository;
     private final UserMapper userMapper;
@@ -16,6 +21,16 @@ public class UserService {
     public UserService(UserRepository userRepository, UserMapper userMapper){
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+    }
+
+    public UserDTO.Response register(UserDTO.Create useCreateDTO){
+        if(userRepository.existsByUsername(useCreateDTO.getUsername())){
+            throw new RuntimeException("Username already exists");
+        }
+
+        User user = userMapper.toEntity(useCreateDTO);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userMapper.toDTO(userRepository.save(user));
     }
 
     public UserDTO.Response save(UserDTO.Create userCreateDTO){
