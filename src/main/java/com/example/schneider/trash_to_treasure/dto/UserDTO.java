@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotNull;
 
 public class UserDTO {
     
-    public class Response{
+    public static class Response{
         
         private Integer id;
         private String username;
@@ -44,7 +44,7 @@ public class UserDTO {
         }
     }
 
-    public class Create {
+    public static class Create {
     
         @NotNull
         private String username;

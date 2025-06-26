@@ -55,7 +55,7 @@ public class ItemController {
     }
 
     //Request to delete an item by id
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public ResponseEntity<ItemDTO.Response> delete(@PathVariable Integer id){
         itemService.deleteById(id);
         return ResponseEntity.noContent().build();

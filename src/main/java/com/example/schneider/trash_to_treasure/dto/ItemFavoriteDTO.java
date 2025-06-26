@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotNull;
 
 public class ItemFavoriteDTO {
     
-    public class Response {
+    public static class Response {
     
         private Integer id;
         private Integer userId;
@@ -35,7 +35,7 @@ public class ItemFavoriteDTO {
         }
     }
     
-    public class Create {
+    public static class Create {
 
         @NotNull
         private Integer userId;
