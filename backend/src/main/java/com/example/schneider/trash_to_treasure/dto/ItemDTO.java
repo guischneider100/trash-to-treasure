@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotNull;
 
 public class ItemDTO {
     
-    public class Response {
+    public static class Response {
     
         private Integer id;
         private String title;
@@ -103,7 +103,7 @@ public class ItemDTO {
         }
     }
 
-    public class Create {
+    public static class Create {
     
         @NotBlank
         private String title;
@@ -181,7 +181,7 @@ public class ItemDTO {
         }
     }
 
-    public class Update {
+    public static class Update {
     
         @NotBlank
         private String title;

@@ -10,6 +10,7 @@ public class TrashToTreasureApplication {
 		SpringApplication.run(TrashToTreasureApplication.class, args);
 		System.out.println("");
 		System.out.println("*** TRASH TO TREASURE APPLICATION IS RUNNING ***");
+		System.out.println("");
 	}
 
 }
