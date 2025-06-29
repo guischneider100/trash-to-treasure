@@ -1,33 +1,4 @@
-HELP.md
-target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
-
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
+# ====================== GLOBAL =====================
 
 ### VS Code ###
 .vscode/
@@ -41,3 +12,75 @@ build/
 # Docker
 *.pid
 db_data/
+
+# ===================== BACKEND (Spring Boot - /backend) =====================
+
+# Build
+/backend/HELP.md
+/backend/target/
+/backend/.mvn/wrapper/maven-wrapper.jar
+!/backend/**/src/main/**/target/
+!/backend/**/src/test/**/target/
+
+### STS ###
+/backend/.apt_generated
+/backend/.classpath
+/backend/.factorypath
+/backend/.project
+/backend/.settings
+/backend/.springBeans
+/backend/.sts4-cache
+
+### IntelliJ IDEA ###
+/backend/.idea
+/backend/*.iws
+/backend/*.iml
+/backend/*.ipr
+
+### NetBeans ###
+/backend/nbproject/private/
+/backend/nbbuild/
+/backend/dist/
+/backend/nbdist/
+/backend/.nb-gradle/
+/backend/build/
+!/backend/**/src/main/**/build/
+!/backend/**/src/test/**/build/
+
+# ===================== FRONTEND (React Native - /frontend) =====================
+
+# dependencies
+/frontend/node_modules/
+
+# Expo
+/frontend/.expo/
+/frontend/dist/
+/frontend/web-build/
+/frontend/expo-env.d.ts
+
+# Native
+/frontend/.kotlin/
+/frontend/*.orig.*
+/frontend/*.jks
+/frontend/*.p8
+/frontend/*.p12
+/frontend/*.key
+/frontend/*.mobileprovision
+
+# Metro bundler
+/frontend/.metro-health-check*
+
+# Debug
+/frontend/npm-debug.*
+/frontend/yarn-debug.*
+/frontend/yarn-error.*
+
+# macOS
+/frontend/.DS_Store
+/frontend/*.pem
+
+# local env files
+/frontend/.env*.local
+
+# TypeScript
+/frontend/*.tsbuildinfo
