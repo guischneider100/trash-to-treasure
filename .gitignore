@@ -14,7 +14,7 @@
 db_data/
 
 # Others 
-file.txt
+/file.txt
 
 # ===================== BACKEND (Spring Boot - /backend) =====================
 
