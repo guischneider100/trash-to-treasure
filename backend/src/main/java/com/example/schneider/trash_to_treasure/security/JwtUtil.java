@@ -19,7 +19,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class JwtUtil {
 
     //Key to sign the token
-    private final String SECRET_KEY = "OoZlun1FL4jlPY9PMMOUBmEAtiVJR01kz3xMKmbalW4=";
+    private final String SECRET_KEY = System.getenv("JWT_SECRET");
     
     private Key getSignInKey(){
         byte[] keyBytes = Base64.getDecoder().decode(SECRET_KEY);

@@ -13,6 +13,9 @@
 *.pid
 db_data/
 
+# Others 
+/info.txt
+
 # ===================== BACKEND (Spring Boot - /backend) =====================
 
 # Build
