@@ -1,6 +1,6 @@
 import { Pressable, TextInput, View, Text } from 'react-native';
 import { globalStyle } from '../styles/globalStyles'
-import ItemCard from '../components/ItemCard';
+import ItemCard from '../components/ItemListCard';
 
 // @ts-ignore
 export default function HomeScreen({}) {

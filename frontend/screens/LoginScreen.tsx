@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { Pressable, Text, TextInput, View, Image } from 'react-native';
 import { globalStyle } from '../styles/globalStyles'
 import { colors } from '../styles/colors';
+import { TextField } from '../components/TextField';
 
 type Props = {
   onLogin: () => void;
@@ -16,15 +17,15 @@ export default function LoginScreen({ onLogin }: Props) {
         <StatusBar style="auto" />
 
         <View>
-          <TextInput style={[globalStyle.input, {fontFamily: 'Fredoka_400Regular'}]} placeholderTextColor="#999" placeholder="Email"/>
-          <TextInput style={[globalStyle.input, {fontFamily: 'Fredoka_400Regular'}]} placeholderTextColor="#999" placeholder="Senha"/>
+          <TextField style={globalStyle.smallInput} placeholderTextColor="#999" placeholder="Email"/>
+          <TextField style={globalStyle.smallInput} placeholderTextColor="#999" placeholder="Senha"/>
         </View>
 
         <Pressable style={[globalStyle.mainButton, {width:300}]} onPress={onLogin}>
-          <Text style={{fontFamily: 'Fredoka_500Medium'}}>SIGN UP</Text>
+          <Text style={globalStyle.buttonText}>Sign Up</Text>
         </Pressable>
 
-        <Pressable><Text style={{fontFamily: 'Fredoka_400Regular'}}>Forgot your password?</Text></Pressable>
+        <Pressable><Text style={globalStyle.simpleButtonText}>Forgot your password?</Text></Pressable>
       </View>
     </View>
   );
