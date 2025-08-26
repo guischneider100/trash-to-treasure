@@ -1,9 +1,8 @@
-import { Image, Pressable, SafeAreaView, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { Image, Pressable, SafeAreaView, Text, View } from 'react-native';
 import { globalStyle } from '../styles/globalStyles'
 import Toast from 'react-native-toast-message';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { RootStackParList } from '../types/navigation';
-import { TextNormal } from '../components/TextNormal';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../styles/colors';
 
@@ -30,11 +29,17 @@ export default function ItemScreen({}) {
           <Text style={globalStyle.title}>Old Chair</Text>
         </View>
 
-        <TextNormal style={{paddingBottom: 20, fontSize: 15}}>A really really big pile of trash with a lot of gooood stuff</TextNormal>
-        <View style={{borderColor: 'white', borderWidth: 1.5, borderRadius: 10, padding: 10, flexDirection: 'row', justifyContent: 'center'}}>
-          <Ionicons name={'bag-check-outline'} size={40} style={{paddingRight: 50}} />
-          <Ionicons name={'trash-outline'} size={40} />
+        <Text style={{paddingBottom: 20, fontSize: 18, fontFamily: 'Fredoka_400Regular', color:colors.darkText}}>A really really big pile of trash with a lot of gooood stuff</Text>
+        
+        <View style={{borderColor: 'white', borderWidth: 1.5, borderRadius: 10, padding: 10}}>
+          <View style={{flexDirection: 'row', alignItems: 'center', paddingBottom: 15}}>
+            <Ionicons name={'bag-check-outline'} size={25} color={colors.primary} style={{paddingRight: 10}}/><Text style={{color:colors.darkText}}>Available</Text>
+          </View>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Ionicons name={'trash-outline'} size={25} color={colors.warning1} style={{paddingRight: 10}}/><Text style={{color:colors.darkText}}>Trash Pile</Text>
+          </View>
         </View>
+        
       </View>
 
       <View style={globalStyle.footer}>

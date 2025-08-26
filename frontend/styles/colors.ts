@@ -7,4 +7,5 @@ export const colors = {
     warning: '#E1A948',
     secondaryWarning: '#D96C24',
     warning1: '#B22222',
+    darkText: '#333333',
 };

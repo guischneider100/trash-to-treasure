@@ -2,7 +2,6 @@ import React from "react";
 import { StyleSheet, View, Image, Text, Dimensions, Pressable } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { colors } from "../styles/colors";
-import { TextNormal } from "./TextNormal";
 
 type Props = {
     title: string,
@@ -25,7 +24,7 @@ export default function ItemCard({title, description, photo, origin} : Props){
           {photo && <Image source={photo} style={styles.image}/>}
           <View style={styles.content}>
               <Text style={styles.title}>{title}</Text>
-              {description && <TextNormal style={styles.description}>{description}</TextNormal>}
+              {description && <Text style={styles.description}>{description}</Text>}
           </View>
       </Pressable>
     )
@@ -38,6 +37,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginLeft: 20,
     borderRadius: 16,
+    borderWidth: 2,
+    borderColor: 'white',
     backgroundColor: colors.secondaryBackground,
     overflow: 'hidden',
     elevation: 5,
@@ -54,9 +55,11 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     marginBottom: 4,
     fontFamily: 'Fredoka_500Medium',
+    color: colors.darkText,
   },
   description: {
     fontSize: 14,
-    color: '#555',
+    color: colors.darkText,
+    fontFamily: 'Fredoka_400Regular',
   },
 });

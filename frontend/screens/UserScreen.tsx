@@ -1,6 +1,5 @@
 import { Image, Pressable, Text, TextInput, View } from 'react-native';
 import { globalStyle } from '../styles/globalStyles'
-import { TextField } from '../components/TextField';
 import { colors } from '../styles/colors';
 
 type Props = {
@@ -16,15 +15,15 @@ export default function UserScreen({ onLogin }: Props) {
           <Text style={globalStyle.simpleButtonText}>Logout</Text>
         </Pressable>
       </View>
-      <View style={globalStyle.container}>
+      <View style={[globalStyle.container, {justifyContent: 'flex-start', paddingTop: 60}]}>
         <Image source={require('../assets/profile.jpg')} style={globalStyle.profilePhoto}/>
-        <TextField style={globalStyle.smallInput} placeholderTextColor="#999" placeholder="Email"/>
-        <TextField style={globalStyle.smallInput} placeholderTextColor="#999" placeholder="Senha"/>
+        <TextInput style={globalStyle.smallInput} placeholderTextColor="#999" placeholder="Email"/>
+        <TextInput style={globalStyle.smallInput} placeholderTextColor="#999" placeholder="Senha"/>
 
-        <Pressable>
+        <Pressable style={{paddingTop: 50}}>
           <Text style={globalStyle.simpleButtonText}>About Us</Text>
         </Pressable>
-        <Pressable onPress={onLogin}>
+        <Pressable style={{paddingTop: 10}} onPress={onLogin}>
           <Text style={[globalStyle.simpleButtonText, {color: colors.warning1, textShadowColor: 'red'}]}>Delete Account</Text>
         </Pressable>
       </View>

@@ -20,12 +20,13 @@ export const globalStyle = StyleSheet.create({
     paddingTop: 20,
     paddingBottom: 20,
     fontFamily: 'Fredoka_500Medium',
+    color: colors.darkText,
   },
 
   container: {
-    flex: 1,
+    flexGrow: 1,
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
   },
 
   loginCard: {
@@ -49,12 +50,59 @@ export const globalStyle = StyleSheet.create({
     justifyContent: 'center',
   },
 
+  roundButton: {
+    backgroundColor: colors.secondary,
+    position: 'absolute',
+    bottom: 100,
+    right: 20,
+    marginTop: 10,
+    marginBottom: 10,
+    borderRadius: 35,
+    width: 60,
+    height: 60,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  photoButton: {
+    backgroundColor: 'trasparent',
+    paddingVertical: 15,
+    paddingHorizontal: 25,
+    marginTop: 10,
+    marginBottom: 10,
+    borderRadius: 15,
+    width: width * 0.90,
+    height: 300,
+    borderStyle: 'dashed',
+    borderWidth: 2,
+    borderColor: colors.primary,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  photoDisplay: {
+    marginTop: 20,
+    width: width * 0.90,
+    height: 500,
+    borderRadius: 15,
+  },
+
   buttonText: {
     fontFamily: 'Fredoka_500Medium', 
     color: colors.secondaryBackground,     
     textShadowColor: colors.tertiary,
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 1,
+    fontSize: 15,
+  },
+
+  buttonTextSelection: {
+    fontFamily: 'Fredoka_500Medium', 
+    color: colors.warning1, 
+    textShadowColor: colors.secondaryWarning,
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 1,
+    fontSize: 10,
   },
 
   simpleButtonText: {
@@ -63,6 +111,7 @@ export const globalStyle = StyleSheet.create({
     textShadowColor: colors.tertiary,
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 1,
+    fontSize: 15,
   },
 
   filterButton: {
@@ -70,6 +119,7 @@ export const globalStyle = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 20,
     marginTop: 10,
+    marginRight: 10,
     marginBottom: 10,
     borderRadius: 20,
     alignItems: 'center',
@@ -87,7 +137,25 @@ export const globalStyle = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 15,
     width: width * 0.90,
+    height: 45,
     margin: 10,
+    fontFamily: 'Fredoka_400Regular',
+  },
+
+  picker: {
+    backgroundColor: colors.secondaryBackground,
+    borderColor: colors.primary,
+    borderWidth: 1,
+    borderRadius: 15,
+    width: width * 0.90,
+    height: 45,
+    margin: 10,
+    justifyContent: "center",
+  },
+
+  pickerItem: {
+    fontFamily: 'Fredoka_400Regular',
+    color: 'gray',
   },
 
   smallInput: {
@@ -97,6 +165,7 @@ export const globalStyle = StyleSheet.create({
     borderRadius: 15,
     width: width * 0.70,
     margin: 10,
+    fontFamily: 'Fredoka_400Regular'
   },
   
   topInputContainer: {
@@ -129,21 +198,20 @@ export const globalStyle = StyleSheet.create({
     width: 200,
     height: 200,
     borderRadius: 100,
-    borderWidth: 2,
-    borderColor: colors.primary,
+    marginBottom: 10,
   },
 
   tabBarStyle: {
     position: 'absolute',
     backgroundColor: colors.secondaryBackground,
     height: 100,
-    borderWidth: 1,
-    borderColor: 'white',
+    borderTopWidth: 1,
+    borderColor: colors.secondary,
   },
 
   itemImg: {
     width: '100%',
-    height: 300,
+    height: 450,
   },
 
   itemCard: {
@@ -151,9 +219,13 @@ export const globalStyle = StyleSheet.create({
     backgroundColor: colors.secondaryBackground,
     borderTopRightRadius: 30,
     borderTopLeftRadius: 30,
-    marginTop: -30,
+    marginTop: -40,
     padding: 16,
     elevation: 3,
+    borderTopWidth: 1.5,
+    borderEndWidth: 1.5,
+    borderStartWidth: 1.5,
+    borderColor: 'white',
   },
 
   footer: {
@@ -161,8 +233,8 @@ export const globalStyle = StyleSheet.create({
     paddingVertical: 12,
     justifyContent: 'space-around',
     backgroundColor: colors.secondaryBackground,
-    borderWidth: 1,
-    borderColor: 'white',
+    borderTopWidth: 1,
+    borderColor: colors.secondary,
     height: 130,
     elevation: 5,
   },
