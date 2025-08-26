@@ -11,20 +11,20 @@ import { ItemType } from "../types/ItemType";
 export default function CreateItemScreen({}){
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-
-    const [seletedOption, setSelectedOption] = useState("");
+    const [condition, setCondition] = useState("New");
 
     const handleSend = async () => {
         const photoUrl: string = "";
-        const condition: string = "USED";
         const latitude: number = 0.00;
         const longitude: number = 0.00;
         const postedByUserId: number = 5;
+        console.error(condition);
         const newItem: NewItem = {title, description, photoUrl, condition, latitude, longitude, postedByUserId};
 
         await createItem(newItem);
         setTitle("");
         setDescription("");
+        setCondition("New");
     }
 
     const [imageUri, setImageUri] = useState<string|null>(null);
@@ -73,7 +73,7 @@ export default function CreateItemScreen({}){
                 <TextInput style={globalStyle.input} multiline={true} placeholderTextColor="#999" placeholder="Description" value={description} onChangeText={setDescription}/>
                 
                 <View style={globalStyle.picker}>
-                    <Picker selectedValue={seletedOption} onValueChange={(itemValue) => setSelectedOption(itemValue)}>
+                    <Picker selectedValue={condition} onValueChange={(itemValue) => setCondition(itemValue)}>
                         {Object.values(ItemType).map((type) => (
                             <Picker.Item key={type} label={type} value={type} style={globalStyle.pickerItem}/>
                         ))}

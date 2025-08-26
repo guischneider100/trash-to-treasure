@@ -20,7 +20,7 @@ export default function UserScreen({ onLogin }: Props) {
         <TextInput style={globalStyle.smallInput} placeholderTextColor="#999" placeholder="Email"/>
         <TextInput style={globalStyle.smallInput} placeholderTextColor="#999" placeholder="Senha"/>
 
-        <Pressable style={{paddingTop: 50}}>
+        <Pressable style={{paddingTop: 20}}>
           <Text style={globalStyle.simpleButtonText}>About Us</Text>
         </Pressable>
         <Pressable style={{paddingTop: 10}} onPress={onLogin}>
