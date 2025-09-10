@@ -20,6 +20,12 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.guilherme.trash-to-treasure",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyBfJs-GYYIp0a5GP_0wICYylAlvgr5aX4w"
+        }
+      },
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff",

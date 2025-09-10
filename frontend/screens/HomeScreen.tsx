@@ -4,7 +4,8 @@ import { Ionicons } from '@expo/vector-icons';
 import ItemCard from '../components/ItemListCard';
 import { getItems } from '../services/itemService';
 import { ExistingItem, Item } from '../types/Item';
-import { useEffect, useState } from 'react';
+import { use, useEffect, useState } from 'react';
+import { colors } from '../styles/colors';
 
 //@ts-ignore
 export default function HomeScreen({navigation}) {
@@ -12,13 +13,15 @@ export default function HomeScreen({navigation}) {
   const [items, setItems] = useState<ExistingItem[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const [isFocused, setFocused] = useState(false);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const data = await getItems();
         setItems([data]);
       } catch (error) {
-        console.error('Error to find Item: ' + error);
+        //console.error('Error to find Item: ' + error);
       } finally {
         setLoading(false);
       }
@@ -32,7 +35,7 @@ export default function HomeScreen({navigation}) {
   return (
     <View style={globalStyle.body}>
       <View style={globalStyle.topInputContainer}>
-        <TextInput style={globalStyle.input} placeholder="Search"/>
+        <TextInput style={[globalStyle.input, isFocused && globalStyle.inputFocused]} placeholder="Search" onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}/>
       </View>
 
       <FlatList
@@ -44,7 +47,7 @@ export default function HomeScreen({navigation}) {
       />
 
       <Pressable style={globalStyle.roundButton} onPress={() => navigation.navigate('CreateItemScreen')}>
-        <Ionicons name="trash-outline" size={35} color={'white'}/>
+        <Ionicons name="trash-outline" size={35} color={colors.secondaryBackground}/>
       </Pressable>
     </View>
   );

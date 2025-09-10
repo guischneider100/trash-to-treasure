@@ -23,6 +23,9 @@ export default function ItemScreen({}) {
   return (
     <SafeAreaView style={globalStyle.body}>
       <Image source={require('../assets/trash.jpg')} style={globalStyle.itemImg}/>
+      <Pressable style={globalStyle.roundButton2}>
+        <Ionicons name="heart-outline" size={30} color={colors.secondaryBackground}/>
+      </Pressable>
       
       <View style={globalStyle.itemCard}>
         <View style={{flexDirection: 'row'}}>
@@ -44,8 +47,8 @@ export default function ItemScreen({}) {
 
       <View style={globalStyle.footer}>
         <View style={globalStyle.bottomInputContainer}>
-          {from == 'UserItem' && (<Pressable style={[globalStyle.mainButton, {width: 70, margin: 5, paddingVertical: 5, paddingHorizontal: 5, backgroundColor: colors.warning1}]}>
-            <Ionicons name="trash-outline" size={30} color={'white'}/>
+          {from == 'UserItem' && (<Pressable style={[globalStyle.mainButton, {width: 60, margin: 5, paddingVertical: 5, paddingHorizontal: 5, backgroundColor: colors.lightWarning, borderColor: colors.warning1}]}>
+            <Ionicons name="trash-outline" size={35} color={colors.secondaryBackground}/>
           </Pressable>)}
           <Pressable style={[globalStyle.mainButton, {width: 260}]} onPress={saveItem}>
             <Text style={globalStyle.buttonText}>{from == 'Home' ? 'Transform into Treasure' : 'Update Treasure'}</Text>

@@ -31,7 +31,7 @@ export const globalStyle = StyleSheet.create({
 
   loginCard: {
     width: width * 0.85,
-    flex: 0.55,
+    flex: 0.52,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
@@ -40,7 +40,9 @@ export const globalStyle = StyleSheet.create({
   },
 
   mainButton: {
-    backgroundColor: colors.secondary,
+    backgroundColor: colors.tertiary,
+    borderColor: colors.secondary,
+    borderWidth: 2,
     paddingVertical: 15,
     paddingHorizontal: 25,
     marginTop: 10,
@@ -51,17 +53,37 @@ export const globalStyle = StyleSheet.create({
   },
 
   roundButton: {
-    backgroundColor: colors.secondary,
+    backgroundColor: colors.tertiary,
+    borderColor: colors.secondary,
+    borderWidth: 2,
     position: 'absolute',
     bottom: 100,
     right: 20,
     marginTop: 10,
     marginBottom: 10,
     borderRadius: 35,
-    width: 60,
-    height: 60,
+    width: 55,
+    height: 55,
     alignItems: 'center',
     justifyContent: 'center',
+    zIndex: 10,
+  },
+
+  roundButton2: {
+    backgroundColor: colors.tertiary,
+    borderColor: colors.secondary,
+    borderWidth: 2,
+    position: 'absolute',
+    top: 40,
+    right: 20,
+    marginTop: 10,
+    marginBottom: 10,
+    borderRadius: 35,
+    width: 45,
+    height: 45,
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 10,
   },
 
   photoButton: {
@@ -75,6 +97,7 @@ export const globalStyle = StyleSheet.create({
     height: 300,
     borderStyle: 'dashed',
     borderWidth: 2,
+    opacity: 0.6,
     borderColor: colors.primary,
     alignItems: 'center',
     justifyContent: 'center',
@@ -82,8 +105,8 @@ export const globalStyle = StyleSheet.create({
 
   photoDisplay: {
     marginTop: 20,
-    width: width * 0.90,
-    height: 500,
+    width: width * 0.65,
+    height: 330,
     borderRadius: 15,
   },
 
@@ -111,7 +134,7 @@ export const globalStyle = StyleSheet.create({
     textShadowColor: colors.tertiary,
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 1,
-    fontSize: 15,
+    fontSize: 13,
   },
 
   filterButton: {
@@ -133,37 +156,53 @@ export const globalStyle = StyleSheet.create({
 
   input: {
     backgroundColor: colors.secondaryBackground,
-    borderColor: colors.primary,
+    borderColor: colors.tertiary,
     borderWidth: 1,
     borderRadius: 15,
     width: width * 0.90,
     height: 45,
     margin: 10,
     fontFamily: 'Fredoka_400Regular',
+    opacity: 0.7,
+  },
+
+  inputFocused: {
+    borderColor: colors.primary,
+    opacity: 1,
   },
 
   picker: {
     backgroundColor: colors.secondaryBackground,
-    borderColor: colors.primary,
+    borderColor: colors.tertiary,
     borderWidth: 1,
     borderRadius: 15,
     width: width * 0.90,
-    height: 45,
+    height: 47,
     margin: 10,
-    justifyContent: "center",
+    marginLeft: 21.5,
+    paddingVertical: 0,
+    paddingHorizontal: 10,
+    opacity: 0.7,
   },
 
   pickerItem: {
     fontFamily: 'Fredoka_400Regular',
-    color: 'gray',
+  },
+
+  pickerDropBox: {
+    borderColor: colors.primary, 
+    width: width * 0.90,
+    marginTop: 10,
+    marginLeft: 21.5,
   },
 
   smallInput: {
     backgroundColor: colors.secondaryBackground,
-    borderColor: colors.primary,
+    borderColor: colors.tertiary,
     borderWidth: 1,
     borderRadius: 15,
     width: width * 0.70,
+    height: 45,
     margin: 10,
     fontFamily: 'Fredoka_400Regular'
   },
@@ -191,7 +230,7 @@ export const globalStyle = StyleSheet.create({
 
   logo: {
     width: 250,
-    height: 220,
+    height: 240,
   },
 
   profilePhoto: {
@@ -237,5 +276,37 @@ export const globalStyle = StyleSheet.create({
     borderColor: colors.secondary,
     height: 130,
     elevation: 5,
+  },
+
+  mapCard: {
+    position: 'absolute',
+    bottom: height * 0.55,
+    right: 120,
+    left: 120,
+    borderRadius: 16,
+    borderWidth: 2,
+    borderColor: 'white',
+    backgroundColor: colors.secondaryBackground,
+    overflow: 'hidden',
+    elevation: 5,
+  },
+  
+  imageMapCard: {
+    width: '100%',
+    height: 130,
+  },
+
+  titleMapCard: {
+    fontSize: 12,
+    fontWeight: '600',
+    marginBottom: 4,
+    fontFamily: 'Fredoka_500Medium',
+    color: colors.darkText,
+  },
+
+  descriptionMapCard: {
+    fontSize: 10,
+    color: colors.darkText,
+    fontFamily: 'Fredoka_400Regular',
   },
 });
