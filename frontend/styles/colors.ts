@@ -6,4 +6,7 @@ export const colors = {
     secondaryBackground: '#F5F0E1',
     warning: '#E1A948',
     secondaryWarning: '#D96C24',
+    warning1: '#B22222',
+    lightWarning: '#C66A6A',
+    darkText: '#333333',
 };

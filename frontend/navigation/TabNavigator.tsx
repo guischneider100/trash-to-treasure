@@ -69,6 +69,9 @@ export default function TabNavigator({ onLogin }: Props) {
             tabBarInactiveTintColor: colors.tertiary,
             headerShown: false,
             tabBarStyle: globalStyle.tabBarStyle,
+            tabBarLabelStyle: {
+              fontFamily: 'Fredoka_400Regular'
+            }
         })}>
             <Tab.Screen name='Home' component={HomeScreen}></Tab.Screen>
             <Tab.Screen name='Map' component={MapScreen}></Tab.Screen>

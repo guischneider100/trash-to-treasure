@@ -32,14 +32,16 @@ export default function ItemCard({title, description, photo, origin} : Props){
 
 const styles = StyleSheet.create({
   card: {
-    width: width * 0.6,
+    width: width * 0.90,
     marginRight: 16,
     marginTop: 10,
-    marginLeft: 12,
+    marginLeft: 20,
     borderRadius: 16,
+    borderWidth: 2,
+    borderColor: 'white',
     backgroundColor: colors.secondaryBackground,
     overflow: 'hidden',
-    elevation: 3,
+    elevation: 5,
   },
   image: {
     width: '100%',
@@ -52,9 +54,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     marginBottom: 4,
+    fontFamily: 'Fredoka_500Medium',
+    color: colors.darkText,
   },
   description: {
     fontSize: 14,
-    color: '#555',
+    color: colors.darkText,
+    fontFamily: 'Fredoka_400Regular',
   },
 });
