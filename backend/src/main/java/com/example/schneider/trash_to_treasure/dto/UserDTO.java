@@ -7,9 +7,9 @@ public class UserDTO {
     public static class Response{
         
         private Integer id;
-        private String username;
-        private String password;
         private String email;
+        private String password;
+        private String mobile;
 
         public Integer getId() {
             return id;
@@ -20,11 +20,11 @@ public class UserDTO {
         }
 
         public String getUsername() {
-            return username;
+            return email;
         }
 
-        public void setUsername(String username) {
-            this.username = username;
+        public void setUsername(String email) {
+            this.email = email;
         }
 
         public String getPassword() {
@@ -35,32 +35,32 @@ public class UserDTO {
             this.password = password;
         }
 
-        public String getEmail() {
-            return email;
+        public String getMobile() {
+            return mobile;
         }
 
-        public void setEmail(String email) {
-            this.email = email;
+        public void setMobile(String mobile) {
+            this.mobile = mobile;
         }
     }
 
     public static class Create {
     
         @NotNull
-        private String username;
+        private String email;
 
         @NotNull
         private String password;
 
         @NotNull
-        private String email;
+        private String mobile;
 
         public String getUsername() {
-            return username;
+            return email;
         }
 
-        public void setUsername(String username) {
-            this.username = username;
+        public void setUsername(String email) {
+            this.email = email;
         }
 
         public String getPassword() {
@@ -71,12 +71,12 @@ public class UserDTO {
             this.password = password;
         }
 
-        public String getEmail() {
-            return email;
+        public String getMobile() {
+            return mobile;
         }
 
-        public void setEmail(String email) {
-            this.email = email;
+        public void setMobile(String mobile) {
+            this.mobile = mobile;
         }
     }
 }

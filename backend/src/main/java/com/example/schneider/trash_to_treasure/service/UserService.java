@@ -25,7 +25,7 @@ public class UserService {
 
     public UserDTO.Response register(UserDTO.Create useCreateDTO){
         if(userRepository.existsByUsername(useCreateDTO.getUsername())){
-            throw new RuntimeException("Username already exists");
+            throw new RuntimeException("Email already exists");
         }
 
         User user = userMapper.toEntity(useCreateDTO);
