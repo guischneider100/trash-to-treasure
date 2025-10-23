@@ -20,11 +20,14 @@
       "supportsTablet": true
     },
     "android": {
-      "package": "com.guilherme.trash-to-treasure",
+      "package": "com.guilhermeschneider.trashtotreasure",
+      "permissions": [
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE"
+      ],
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff",
-        "permissions": ["CAMERA", "READ_EXTERNAL_STORAGE"]
+        "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true
     },
@@ -33,6 +36,11 @@
     },
     "plugins": [
       "expo-font"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "8d71105e-e814-4049-bbd1-7346fc264079"
+      }
+    }
   }
 }
