@@ -62,7 +62,7 @@ export default function TabNavigator({ onLogin }: Props) {
         <Tab.Navigator screenOptions={({ route }) => ({
             tabBarIcon: ({focused, color, size}) => {
                 const iconName = icons[route.name];
-                return <Ionicons name={iconName} size={focused ? size + 5 : size} color={color} />;
+                return <Ionicons name={iconName} size={focused ? size + 4 : size} color={color} />;
             },
             tabBarButton: (props) => <CustomTabButton {...props} />,
             tabBarActiveTintColor: colors.primary,

@@ -7,6 +7,9 @@ export const colors = {
     warning: '#E1A948',
     secondaryWarning: '#D96C24',
     warning1: '#B22222',
-    lightWarning: '#C66A6A',
+    warning2: '#D14D4D',
     darkText: '#333333',
+    darkLightText: '#666666',
+    calendarYellow: '#D6C25A',
+    calendarRed: '#C16666',
 };
