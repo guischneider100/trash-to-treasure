@@ -1,11 +1,15 @@
 import { Pressable, Text, View } from "react-native";
 import { globalStyle } from "../styles/globalStyles";
+import { useAuth } from "../context/AuthContext";
 
-type Props = {
-  onLogin: () => void;
-};
+export default function ElipseMenu(){
 
-export default function ElipseMenu({ onLogin }: Props){
+    const {signOut} = useAuth();
+
+    const handleLogin = () => {
+        signOut();
+    }
+
     return (
         <View style={globalStyle.itemMenu}>
             <Pressable style={globalStyle.itemMenuButton}>
@@ -20,7 +24,7 @@ export default function ElipseMenu({ onLogin }: Props){
             <Pressable style={globalStyle.itemMenuButton}>
                 <Text style={[globalStyle.simpleButtonText, {fontSize: 15}]}>Delete account</Text>
             </Pressable>
-            <Pressable style={globalStyle.itemMenuButton} onPress={onLogin}>
+            <Pressable style={globalStyle.itemMenuButton} onPress={handleLogin}>
                 <Text style={[globalStyle.simpleButtonText, {fontSize: 15}]}>Logout</Text>
             </Pressable>
         </View>

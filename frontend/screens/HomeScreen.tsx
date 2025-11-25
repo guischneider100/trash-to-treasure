@@ -7,6 +7,13 @@ import { ExistingItem } from '../types/Item';
 import { useEffect, useState } from 'react';
 import { colors } from '../styles/colors';
 import { Image } from 'react-native';
+import LoadingScreen from './LoadingScreen';
+
+type HomeParamtsList = {
+  HomeMain: undefined,
+  ItemHome: { origin: "Home" },
+  CreateItem: undefined,
+}
 
 //@ts-ignore
 export default function HomeScreen({navigation}) {
@@ -38,14 +45,14 @@ export default function HomeScreen({navigation}) {
     fetchData();
   }, []);
 
-  if (loading) return <ActivityIndicator size="large" />
+  if (loading) return <LoadingScreen/>
 
   return (
     <View style={globalStyle.body}>
       <View style={globalStyle.topInputContainer}>
         <View style={[globalStyle.longInput, isFocused && globalStyle.inputFocused]}>
           <Ionicons name="search-outline" size={20} color={colors.tertiary}/>
-          <TextInput placeholder='Search your Treasureaa' placeholderTextColor={isFocused ? colors.darkLightText : "#999"} style={{fontFamily: 'Fredoka_400Regular', paddingLeft: 10, width: "100%"}} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}/>
+          <TextInput placeholder='Search your Treasure' placeholderTextColor={isFocused ? colors.darkLightText : "#999"} style={{fontFamily: 'Fredoka_400Regular', paddingLeft: 10, width: "100%"}} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}/>
         </View>
       </View>
 

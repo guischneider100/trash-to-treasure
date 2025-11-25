@@ -27,7 +27,7 @@ export default function ItemScreen({navigation}) {
   return (
     <SafeAreaView style={globalStyle.body} edges={[]}>
       <Image source={require('../assets/trash.jpg')} style={globalStyle.itemImg}/>
-      <Pressable style={[globalStyle.roundButton2, {left: 40}]}>
+      <Pressable style={[globalStyle.roundButton2, {left: 20}]}>
         <Ionicons name="arrow-back-sharp" size={25} color={colors.secondaryBackground} onPress={() => navigation.goBack()}/>
       </Pressable>
 

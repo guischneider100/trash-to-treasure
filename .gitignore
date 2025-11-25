@@ -87,3 +87,6 @@ db_data/
 
 # TypeScript
 /frontend/*.tsbuildinfo
+
+#Android
+/frontend/android/

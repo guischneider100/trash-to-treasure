@@ -4,14 +4,26 @@ import { globalStyle } from '../styles/globalStyles'
 import { colors } from '../styles/colors';
 import { useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
+import { useAuth } from '../context/AuthContext';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-type Props = {
-  onLogin: () => void;
+type AuthStackParamList = {
+  Login: undefined;
+  CreateAccount: undefined;
+  RequestForgotPassword: undefined;
+  RedefineForgotPassword: undefined;
 };
 
 // @ts-ignore
-export default function LoginScreen({ navigation, onLogin }: Props) {
+export default function LoginScreen() {
   const [isFocused, setFocused] = useState<string|null>(null);
+  const { signIn } = useAuth();
+  const navigation = useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
+  
+  const handleLogin = () => {
+    signIn();
+  }
 
   return (
     <View style={[globalStyle.container, {backgroundColor: colors.background}]}>
@@ -35,15 +47,15 @@ export default function LoginScreen({ navigation, onLogin }: Props) {
             <TextInput placeholderTextColor={isFocused === "password" ? colors.darkLightText : "#999"} onFocus={() => setFocused("password")} onBlur={() => setFocused(null)} style={{fontFamily: 'Fredoka_400Regular', paddingLeft: 10, width: "100%"}}/>
         </View>
 
-        <Pressable style={[globalStyle.mainButton, {width:330}]} onPress={onLogin}>
+        <Pressable style={[globalStyle.mainButton, {width:330}]} onPress={handleLogin}>
           <Text style={globalStyle.buttonText}>Log In</Text>
         </Pressable>
 
         <View style={{flexDirection: 'row'}}>
-          <Pressable onPress={() => navigation.navigate('CreateAccountScreen')}>
+          <Pressable onPress={() => navigation.navigate('CreateAccount')}>
             <Text style={[globalStyle.simpleButtonText, {paddingHorizontal: 50, paddingVertical: 10}]}>Create an Account</Text>
           </Pressable>
-          <Pressable onPress={() => navigation.navigate('RequestForgotPasswordScreen')}>
+          <Pressable onPress={() => navigation.navigate('RequestForgotPassword')}>
             <Text style={[globalStyle.simpleButtonText, {paddingHorizontal: 50, paddingVertical: 10}]}>Forgot your password?</Text>
           </Pressable>
         </View>
