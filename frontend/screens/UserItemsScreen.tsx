@@ -1,8 +1,9 @@
-import { Pressable, SafeAreaView, Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { globalStyle } from '../styles/globalStyles'
 import ItemCard from '../components/ItemListCard';
 import { colors } from '../styles/colors';
 import { useState } from 'react';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 // @ts-ignore
 export default function UserItemScreen({}) {
@@ -11,7 +12,7 @@ export default function UserItemScreen({}) {
   const options = ["Collected Treasure", "Posted Trash", "Favorites"];
 
   return (
-    <SafeAreaView style={globalStyle.body}>
+    <SafeAreaView style={globalStyle.body} edges={[]}>
       <View style={globalStyle.topInputContainer}>
         {options.map((option) => {
           const isActive = selected === option;

@@ -44,8 +44,6 @@ const CustomTabButton = (props: any) => {
   );
 };
 
-const Tab = createBottomTabNavigator();
-
 const icons: Record<string, keyof typeof Ionicons.glyphMap> = {
   Home: "home-outline",
   Map: "map-outline",
@@ -53,16 +51,16 @@ const icons: Record<string, keyof typeof Ionicons.glyphMap> = {
   Profile: "person-outline",
 };
 
-type Props = {
-  onLogin: () => void;
-};
+const Tab = createBottomTabNavigator();
 
-export default function TabNavigator({ onLogin }: Props) {
+//@ts-ignore
+export default function TabNavigator() {
+
     return(
         <Tab.Navigator screenOptions={({ route }) => ({
             tabBarIcon: ({focused, color, size}) => {
                 const iconName = icons[route.name];
-                return <Ionicons name={iconName} size={focused ? size + 5 : size} color={color} />;
+                return <Ionicons name={iconName} size={focused ? size + 4 : size} color={color} />;
             },
             tabBarButton: (props) => <CustomTabButton {...props} />,
             tabBarActiveTintColor: colors.primary,
@@ -76,9 +74,7 @@ export default function TabNavigator({ onLogin }: Props) {
             <Tab.Screen name='Home' component={HomeScreen}></Tab.Screen>
             <Tab.Screen name='Map' component={MapScreen}></Tab.Screen>
             <Tab.Screen name='My Items' component={UserItemScreen}></Tab.Screen>
-            <Tab.Screen name='Profile'>
-              {() => <UserScreen onLogin={onLogin}/>}
-            </Tab.Screen>
+            <Tab.Screen name='Profile' component={UserScreen}></Tab.Screen>
         </Tab.Navigator>
     );
 }

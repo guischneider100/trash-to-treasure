@@ -1,4 +1,4 @@
-import { Alert, Pressable, Text, View, Image, ScrollView, TextInput } from "react-native";
+import { Alert, Pressable, Text, View, Image, TextInput } from "react-native";
 import { globalStyle } from "../styles/globalStyles";
 import { useEffect, useState } from "react";
 import * as ImagePicker from 'expo-image-picker';
@@ -11,7 +11,7 @@ import DropDownPicker from "react-native-dropdown-picker";
 type ItemTypeKey = keyof typeof ItemType;
 
 //@ts-ignore
-export default function CreateItemScreen({}){
+export default function CreateItemScreen({navigation}){
     
     const [isFocused, setFocused] = useState<string|null>(null);
     const [open, setOpen] = useState(false);
@@ -30,13 +30,15 @@ export default function CreateItemScreen({}){
     })));
 
     const handleSend = async () => {
-        const photoUrl: string = "";
+        /*const photoUrl: string = "";
         const latitude: number = 0.00;
         const longitude: number = 0.00;
         const postedByUserId: number = 5;
         const newItem: NewItem = {title, description, photoUrl, condition: condition!, latitude, longitude, postedByUserId};
 
-        await createItem(newItem);
+        await createItem(newItem);*/
+
+        navigation.navigate('MainApp');
     }
 
     const [imageUri, setImageUri] = useState<string|null>(null);
@@ -62,9 +64,9 @@ export default function CreateItemScreen({}){
     return(
         <View style={globalStyle.body}>
             <View style={globalStyle.container}> 
-                <TextInput style={[globalStyle.input, isFocused === "title" && globalStyle.inputFocused]} placeholderTextColor={isFocused === "title" ? "#000" : "#999"} placeholder="Title" value={title} onChangeText={setTitle} onFocus={() => setFocused("title")} onBlur={() => setFocused(null)}/>
+                <TextInput style={[globalStyle.input, isFocused === "title" && globalStyle.inputFocused]} placeholderTextColor={isFocused === "title" ? colors.darkLightText : "#999"} placeholder="Title" value={title} onChangeText={setTitle} onFocus={() => setFocused("title")} onBlur={() => setFocused(null)}/>
                 
-                <TextInput style={[globalStyle.input, isFocused === "description" && globalStyle.inputFocused]} multiline={true} placeholderTextColor={isFocused === "description" ? "#000" : "#999"} placeholder="Description" value={description} onChangeText={setDescription} onFocus={() => setFocused("description")} onBlur={() => setFocused(null)}/>
+                <TextInput style={[globalStyle.input, isFocused === "description" && globalStyle.inputFocused]} multiline={true} placeholderTextColor={isFocused === "description" ? colors.darkLightText : "#999"} placeholder="Description" value={description} onChangeText={setDescription} onFocus={() => setFocused("description")} onBlur={() => setFocused(null)}/>
                 
                 <DropDownPicker open={open} value={condition} items={itemConditions} setOpen={setOpen} setValue={setCondition} setItems={setItemConditions} style={[globalStyle.picker, isFocused === "condition" ? {borderColor: colors.primary}: {}]} textStyle={globalStyle.pickerItem} dropDownContainerStyle={globalStyle.pickerDropBox}/>
   

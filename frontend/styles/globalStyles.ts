@@ -4,6 +4,34 @@ import { Dimensions } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
 
+export const DARK_MAP_STYLE = [
+  { elementType: 'geometry', stylers: [{ color: '#3F434C' }] },
+  { elementType: 'labels.icon', stylers: [{ visibility: 'off' }] },
+  { elementType: 'labels.text.fill', stylers: [{ color: '#57AC8D' }] },
+  { elementType: 'labels.text.stroke', stylers: [{ color: '#212121' }] },
+  { featureType: 'administrative', elementType: 'geometry', stylers: [{ color: '#757575' }] },
+  { featureType: 'poi', elementType: 'geometry', stylers: [{ color: '#343843' }] },
+  { featureType: 'poi.park', elementType: 'geometry', stylers: [{ color: '#343843' }] },
+  { featureType: 'road', elementType: 'geometry', stylers: [{ color: '#262834' }] },
+  { featureType: 'road', elementType: 'labels.text.fill', stylers: [{ color: '#D1CFD2' }] },
+  { featureType: 'road.arterial', elementType: 'geometry', stylers: [{ color: '#262834' }] },
+  { featureType: 'transit', elementType: 'geometry', stylers: [{ color: '#2f3948' }] },
+  { featureType: 'water', elementType: 'geometry', stylers: [{ color: '#525969' }] },
+  { featureType: 'water', elementType: 'labels.text.fill', stylers: [{ color: '#87e0c0' }] },
+];
+
+export const CALENDAR_STYLE =
+  {
+    calendarBackground: colors.secondaryBackground,
+    monthTextColor: colors.darkText,
+    arrowColor: colors.tertiary,
+    textMonthFontFamily: 'Fredoka_400Regular',
+    textMonthFontSize: 18,
+    textDayFontFamily: 'Fredoka_400Regular',
+    textDayHeaderFontFamily: 'Fredoka_400Regular',
+    todayTextColor: colors.warning,
+  };
+
 export const SIZES = {
   height,
   width,
@@ -16,11 +44,19 @@ export const globalStyle = StyleSheet.create({
   },
 
   title: {
-    fontSize: 35,
-    paddingTop: 20,
+    fontSize: 40,
+    paddingTop: 10,
     paddingBottom: 20,
     fontFamily: 'Fredoka_500Medium',
     color: colors.darkText,
+  },
+
+  normalText: {
+    paddingBottom: 40, 
+    fontSize: 16, 
+    fontFamily: 'Fredoka_400Regular', 
+    color:colors.darkLightText, 
+    textAlign: 'center',
   },
 
   container: {
@@ -31,50 +67,32 @@ export const globalStyle = StyleSheet.create({
 
   loginCard: {
     width: width * 0.85,
-    flex: 0.52,
+    flex: 0.57,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
     backgroundColor: colors.secondaryBackground,
-    elevation: 4,
+    elevation: 10,
   },
 
   mainButton: {
     backgroundColor: colors.tertiary,
     borderColor: colors.secondary,
     borderWidth: 2,
-    paddingVertical: 15,
-    paddingHorizontal: 25,
     marginTop: 10,
     marginBottom: 10,
-    borderRadius: 10,
+    borderRadius: 15,
     alignItems: 'center',
     justifyContent: 'center',
+    height: 50,
   },
 
   roundButton: {
     backgroundColor: colors.tertiary,
     borderColor: colors.secondary,
-    borderWidth: 2,
+    borderWidth: 1.5,
     position: 'absolute',
-    bottom: 100,
-    right: 20,
-    marginTop: 10,
-    marginBottom: 10,
-    borderRadius: 35,
-    width: 55,
-    height: 55,
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 10,
-  },
-
-  roundButton2: {
-    backgroundColor: colors.tertiary,
-    borderColor: colors.secondary,
-    borderWidth: 2,
-    position: 'absolute',
-    top: 40,
+    bottom: 150,
     right: 20,
     marginTop: 10,
     marginBottom: 10,
@@ -86,15 +104,32 @@ export const globalStyle = StyleSheet.create({
     zIndex: 10,
   },
 
+  roundButton2: {
+    backgroundColor: colors.tertiary,
+    borderColor: colors.secondary,
+    borderWidth: 1.5,
+    position: 'absolute',
+    top: 40,
+    right: 20,
+    marginTop: 10,
+    marginBottom: 10,
+    borderRadius: 35,
+    width: 35,
+    height: 35,
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 10,
+  },
+
   photoButton: {
     backgroundColor: 'trasparent',
     paddingVertical: 15,
     paddingHorizontal: 25,
-    marginTop: 10,
+    marginTop: 20,
     marginBottom: 10,
     borderRadius: 15,
-    width: width * 0.90,
-    height: 300,
+    width: width * 0.65,
+    height: 330,
     borderStyle: 'dashed',
     borderWidth: 2,
     opacity: 0.6,
@@ -117,6 +152,8 @@ export const globalStyle = StyleSheet.create({
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 1,
     fontSize: 15,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
   },
 
   buttonTextSelection: {
@@ -134,7 +171,7 @@ export const globalStyle = StyleSheet.create({
     textShadowColor: colors.tertiary,
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 1,
-    fontSize: 13,
+    fontSize: 12,
   },
 
   filterButton: {
@@ -157,6 +194,7 @@ export const globalStyle = StyleSheet.create({
   input: {
     backgroundColor: colors.secondaryBackground,
     borderColor: colors.tertiary,
+    color: colors.darkLightText,
     borderWidth: 1,
     borderRadius: 15,
     width: width * 0.90,
@@ -166,8 +204,28 @@ export const globalStyle = StyleSheet.create({
     opacity: 0.7,
   },
 
+  longInput: {
+    width: '90%', 
+    borderColor: colors.tertiary, 
+    borderWidth: 1,
+    color: colors.darkLightText,
+    alignItems: 'center', 
+    flexDirection: 'row', 
+    paddingLeft: 10,
+    marginBottom: 20,
+    marginTop: 10,
+    borderRadius: 15, 
+    height: 45,
+  },
+
   inputFocused: {
     borderColor: colors.primary,
+    color: colors.darkText,
+    opacity: 1,
+  },
+
+  textFocused: {
+    color: colors.primary,
     opacity: 1,
   },
 
@@ -199,6 +257,7 @@ export const globalStyle = StyleSheet.create({
   smallInput: {
     backgroundColor: colors.secondaryBackground,
     borderColor: colors.tertiary,
+    color: colors.darkLightText,
     borderWidth: 1,
     borderRadius: 15,
     width: width * 0.70,
@@ -216,7 +275,6 @@ export const globalStyle = StyleSheet.create({
 
   topRigthCornerContainer: {
     paddingTop: 50,
-    paddingRight: 20,
     alignContent: 'flex-end', 
     justifyContent: 'flex-end',
     flexDirection: 'row',
@@ -231,6 +289,12 @@ export const globalStyle = StyleSheet.create({
   logo: {
     width: 250,
     height: 240,
+    marginBottom: 5,
+  },
+
+  logo2: {
+    width: 150,
+    height: 140,
   },
 
   profilePhoto: {
@@ -250,21 +314,40 @@ export const globalStyle = StyleSheet.create({
 
   itemImg: {
     width: '100%',
-    height: 450,
+    height: 350,
   },
 
   itemCard: {
     flex: 1,
     backgroundColor: colors.secondaryBackground,
-    borderTopRightRadius: 30,
-    borderTopLeftRadius: 30,
+    borderTopRightRadius: 35,
+    borderTopLeftRadius: 35,
     marginTop: -40,
     padding: 16,
-    elevation: 3,
+    elevation: 5,
     borderTopWidth: 1.5,
     borderEndWidth: 1.5,
     borderStartWidth: 1.5,
-    borderColor: 'white',
+    borderColor: colors.secondary,
+  },
+
+  itemMenu: {
+    backgroundColor: colors.secondaryBackground,
+    padding: 5,
+    borderRadius: 15,
+    borderWidth: 1,
+    elevation: 8,
+    borderColor: colors.secondary,
+    width: 150,
+    left: 20,
+    top: 80,
+    position: "absolute",
+    zIndex: 10,
+  },
+
+  itemMenuButton: {
+    paddingTop: 10,
+    paddingBottom: 10,
   },
 
   footer: {
@@ -280,7 +363,7 @@ export const globalStyle = StyleSheet.create({
 
   mapCard: {
     position: 'absolute',
-    bottom: height * 0.55,
+    bottom: height * 0.53,
     right: 120,
     left: 120,
     borderRadius: 16,
@@ -308,5 +391,10 @@ export const globalStyle = StyleSheet.create({
     fontSize: 10,
     color: colors.darkText,
     fontFamily: 'Fredoka_400Regular',
+  },
+
+  compactMap: {
+    width: "100%",
+    height: 150,
   },
 });

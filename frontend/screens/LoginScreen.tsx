@@ -3,14 +3,27 @@ import { Pressable, Text, TextInput, View, Image } from 'react-native';
 import { globalStyle } from '../styles/globalStyles'
 import { colors } from '../styles/colors';
 import { useState } from 'react';
+import { Ionicons } from '@expo/vector-icons';
+import { useAuth } from '../context/AuthContext';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-type Props = {
-  onLogin: () => void;
+type AuthStackParamList = {
+  Login: undefined;
+  CreateAccount: undefined;
+  RequestForgotPassword: undefined;
+  RedefineForgotPassword: undefined;
 };
 
 // @ts-ignore
-export default function LoginScreen({ navigation, onLogin }: Props) {
+export default function LoginScreen() {
   const [isFocused, setFocused] = useState<string|null>(null);
+  const { signIn } = useAuth();
+  const navigation = useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
+  
+  const handleLogin = () => {
+    signIn();
+  }
 
   return (
     <View style={[globalStyle.container, {backgroundColor: colors.background}]}>
@@ -18,21 +31,32 @@ export default function LoginScreen({ navigation, onLogin }: Props) {
         <Image source={require('../assets/logo.png')} style={globalStyle.logo}/>
         <StatusBar style="auto" />
 
-        <View>
-          <TextInput style={[globalStyle.smallInput, isFocused === "email" && globalStyle.inputFocused]} placeholderTextColor={isFocused === "email" ? "#000" : "#999"} placeholder="Email" onFocus={() => setFocused("email")} onBlur={() => setFocused(null)}/>
-          <TextInput style={[globalStyle.smallInput, isFocused === "password" && globalStyle.inputFocused]} placeholderTextColor={isFocused === "password" ? "#000" : "#999"} placeholder="Password" onFocus={() => setFocused("password")} onBlur={() => setFocused(null)}/>
+        <View style={{alignSelf: 'flex-start', left: 23}}>
+            <Text style={[{fontFamily: 'Fredoka_500Medium', color: colors.tertiary}, isFocused === "email" && globalStyle.textFocused]}>Email</Text>
+        </View>
+        <View style={[globalStyle.longInput, isFocused === "email" && globalStyle.inputFocused]}>
+            <Ionicons name="mail-outline" size={20} color={colors.tertiary}/>
+            <TextInput onFocus={() => setFocused("email")} onBlur={() => setFocused(null)} style={{fontFamily: 'Fredoka_400Regular', paddingLeft: 10, width: "100%"}}/>
         </View>
 
-        <Pressable style={[globalStyle.mainButton, {width:300}]} onPress={onLogin}>
-          <Text style={globalStyle.buttonText}>Sign Up</Text>
+        <View style={{alignSelf: 'flex-start', left: 23}}>
+            <Text style={[{fontFamily: 'Fredoka_500Medium', color: colors.tertiary}, isFocused === "password" && globalStyle.textFocused]}>Password</Text>
+        </View>
+        <View style={[globalStyle.longInput, isFocused === "password" && globalStyle.inputFocused]}>
+            <Ionicons name="key-outline" size={20} color={colors.tertiary}/>
+            <TextInput placeholderTextColor={isFocused === "password" ? colors.darkLightText : "#999"} onFocus={() => setFocused("password")} onBlur={() => setFocused(null)} style={{fontFamily: 'Fredoka_400Regular', paddingLeft: 10, width: "100%"}}/>
+        </View>
+
+        <Pressable style={[globalStyle.mainButton, {width:330}]} onPress={handleLogin}>
+          <Text style={globalStyle.buttonText}>Log In</Text>
         </Pressable>
 
         <View style={{flexDirection: 'row'}}>
-          <Pressable onPress={() => navigation.navigate('CreateAccountScreen')}>
-            <Text style={[globalStyle.simpleButtonText, {margin: 22}]}>Create an Account</Text>
+          <Pressable onPress={() => navigation.navigate('CreateAccount')}>
+            <Text style={[globalStyle.simpleButtonText, {paddingHorizontal: 50, paddingVertical: 10}]}>Create an Account</Text>
           </Pressable>
-          <Pressable>
-            <Text style={[globalStyle.simpleButtonText, {margin: 22}]}>Forgot your password?</Text>
+          <Pressable onPress={() => navigation.navigate('RequestForgotPassword')}>
+            <Text style={[globalStyle.simpleButtonText, {paddingHorizontal: 50, paddingVertical: 10}]}>Forgot your password?</Text>
           </Pressable>
         </View>
       </View>
