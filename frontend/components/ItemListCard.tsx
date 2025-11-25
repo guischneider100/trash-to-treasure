@@ -15,8 +15,10 @@ const { width } = Dimensions.get('window');
 export default function ItemCard({title, description, photo, origin} : Props){
   const navigation = useNavigation() as any;
 
+  const navPag = origin == "HomeScreen" ? "ItemFromHome" : "ItemFromUser"
+
   const accessItem = () => {
-    navigation.navigate("ItemScreen",{ from: [origin]});
+    navigation.navigate(navPag,{ from: [origin]});
   };
 
     return(

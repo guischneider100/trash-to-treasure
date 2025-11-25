@@ -6,14 +6,20 @@ import { Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { colors } from "../styles/colors";
 
-type Props = {
-  onLogin: () => void;
-};
-
 //@ts-ignore
-export default function CreateAccountScreen({ onLogin }: Props) {
+export default function CreateAccountScreen() {
 
     const [isFocused, setFocused] = useState<string|null>(null);
+
+    const [email, setEmail] = useState("");
+    const [mobile, setMobile] = useState("");
+    const [password, setPassword] = useState("");
+    const [cPassword, setCPassword] = useState("");
+
+    const createAccount = async () => {
+        const newAccount: NewAccount = {}
+        console.log(email + mobile + password + cPassword)
+    }
 
     return (
         <View style={globalStyle.body}>
@@ -26,7 +32,7 @@ export default function CreateAccountScreen({ onLogin }: Props) {
                 </View>
                 <View style={[globalStyle.longInput, isFocused === "email" && globalStyle.inputFocused]}>
                     <Ionicons name="mail-outline" size={20} color={colors.tertiary}/>
-                    <TextInput onFocus={() => setFocused("email")} onBlur={() => setFocused(null)} style={{fontFamily: 'Fredoka_400Regular', paddingLeft: 10, width: "100%"}}/>
+                    <TextInput onFocus={() => setFocused("email")} onBlur={() => setFocused(null)} style={{fontFamily: 'Fredoka_400Regular', paddingLeft: 10, width: "100%"}} value={email} onChangeText={setEmail}/>
                 </View>
 
                 <View style={{alignSelf: 'flex-start', left: 23}}>
@@ -34,7 +40,7 @@ export default function CreateAccountScreen({ onLogin }: Props) {
                 </View>
                 <View style={[globalStyle.longInput, isFocused === "mobile" && globalStyle.inputFocused]}>
                     <Ionicons name="phone-portrait-outline" size={20} color={colors.tertiary}/>
-                    <TextInput placeholderTextColor={isFocused === "mobile" ? colors.darkLightText : "#999"}  onFocus={() => setFocused("mobile")} onBlur={() => setFocused(null)} style={{fontFamily: 'Fredoka_400Regular', paddingLeft: 10, width: "100%"}}/>
+                    <TextInput placeholderTextColor={isFocused === "mobile" ? colors.darkLightText : "#999"} onFocus={() => setFocused("mobile")} onBlur={() => setFocused(null)} style={{fontFamily: 'Fredoka_400Regular', paddingLeft: 10, width: "100%"}} value={mobile} onChangeText={setMobile}/>
                 </View>
 
                 <View style={{alignSelf: 'flex-start', left: 23}}>
@@ -42,7 +48,7 @@ export default function CreateAccountScreen({ onLogin }: Props) {
                 </View>
                 <View style={[globalStyle.longInput, isFocused === "password" && globalStyle.inputFocused]}>
                     <Ionicons name="key-outline" size={20} color={colors.tertiary}/>
-                    <TextInput placeholderTextColor={isFocused === "password" ? colors.darkLightText : "#999"} onFocus={() => setFocused("password")} onBlur={() => setFocused(null)} style={{fontFamily: 'Fredoka_400Regular', paddingLeft: 10, width: "100%"}}/>
+                    <TextInput placeholderTextColor={isFocused === "password" ? colors.darkLightText : "#999"} onFocus={() => setFocused("password")} onBlur={() => setFocused(null)} style={{fontFamily: 'Fredoka_400Regular', paddingLeft: 10, width: "100%"}} value={password} onChangeText={setPassword}/>
                 </View>
 
                 <View style={{alignSelf: 'flex-start', left: 23}}>
@@ -50,13 +56,13 @@ export default function CreateAccountScreen({ onLogin }: Props) {
                 </View>
                 <View style={[globalStyle.longInput, isFocused === "cPassword" && globalStyle.inputFocused]}>
                     <Ionicons name="key-outline" size={20} color={colors.tertiary}/>
-                    <TextInput placeholderTextColor={isFocused === "cPassword" ? colors.darkLightText : "#999"} onFocus={() => setFocused("cPassword")} onBlur={() => setFocused(null)} style={{fontFamily: 'Fredoka_400Regular', paddingLeft: 10, width: "100%"}}/>
+                    <TextInput placeholderTextColor={isFocused === "cPassword" ? colors.darkLightText : "#999"} onFocus={() => setFocused("cPassword")} onBlur={() => setFocused(null)} style={{fontFamily: 'Fredoka_400Regular', paddingLeft: 10, width: "100%"}} value={cPassword} onChangeText={setCPassword}/>
                 </View>
             </View>
 
             <View style={globalStyle.footer}>
                 <View style={globalStyle.bottomInputContainer}>
-                <Pressable style={[globalStyle.mainButton, {width: 260}]} onPress={onLogin}>
+                <Pressable style={[globalStyle.mainButton, {width: 260}]} onPress={createAccount}>
                     <Text style={globalStyle.buttonText}>Create Account</Text>
                 </Pressable>
                 </View>

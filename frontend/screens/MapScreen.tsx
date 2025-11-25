@@ -8,6 +8,7 @@ import { Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { colors } from '../styles/colors';
 import { Ionicons } from '@expo/vector-icons';
+import LoadingScreen from './LoadingScreen';
 
 const MARKERS = [
   {
@@ -74,7 +75,7 @@ export default function MapScreen() {
   }
 
   if (loading || !location) {
-    return <ActivityIndicator size="large" style={{ flex: 1 }} />;
+    return <LoadingScreen/>;
   }
 
   const accessItem = () => {

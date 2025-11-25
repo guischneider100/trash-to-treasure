@@ -6,33 +6,24 @@ import { Ionicons } from '@expo/vector-icons';
 import ElipseMenu from '../components/ElipseMenu';
 import {Calendar} from 'react-native-calendars';
 
-type Props = {
-  onLogin: () => void;
-};
-
 // @ts-ignore
-export default function UserScreen({ onLogin }: Props) {
+export default function UserScreen() {
   const [isFocused, setFocused] = useState<string|null>(null);
 
   const [menuVisible, setVisible] = useState(false);
-
-  const onPress = () => {
-    setVisible(!menuVisible);
-  }
 
   return (
     <View style={globalStyle.body}>
       
       <View style={globalStyle.topInputContainer}>
-        <Pressable style={[globalStyle.roundButton2, {width: 28, height: 28, left: 20}]} onPress={onPress}>
+        <Pressable style={[globalStyle.roundButton2, {width: 28, height: 28, left: 20}]} onPress={() => setVisible(true)}>
           <Ionicons name="ellipsis-vertical-sharp" size={22} color={colors.secondaryBackground}/>
         </Pressable>
-
-        {menuVisible &&  <ElipseMenu onLogin={onLogin}>
-
-    </ElipseMenu>}
       </View>
+      
+      {menuVisible && <ElipseMenu/>}
 
+<Pressable onPress={() => setVisible(false)}>
       <View style={[globalStyle.container, {justifyContent: 'flex-start', paddingTop: 20}]}>
 
         <Image source={require('../assets/logo.png')} style={globalStyle.logo2}/>
@@ -82,6 +73,7 @@ export default function UserScreen({ onLogin }: Props) {
             <Text style={{fontFamily: 'Fredoka_400Regular', color: colors.calendarRed}}> Rubbish </Text>
           </View>
       </View>
+      </Pressable>
     </View>
   );
 }
