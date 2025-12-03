@@ -5,6 +5,8 @@ import { useState } from "react";
 import { Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { colors } from "../styles/colors";
+import { NewUser } from "../types/User";
+import { createUser } from "../services/userService";
 
 //@ts-ignore
 export default function CreateAccountScreen() {
@@ -17,8 +19,10 @@ export default function CreateAccountScreen() {
     const [cPassword, setCPassword] = useState("");
 
     const createAccount = async () => {
-        const newAccount: NewAccount = {}
+        const newUser: NewUser = {email, password, mobile}
         console.log(email + mobile + password + cPassword)
+
+        await createUser(newUser);
     }
 
     return (
