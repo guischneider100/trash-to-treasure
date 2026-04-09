@@ -7,9 +7,12 @@ import { Ionicons } from "@expo/vector-icons";
 import { colors } from "../styles/colors";
 import { NewUser } from "../types/User";
 import { createUser } from "../services/userService";
+import { useAuth } from "../context/AuthContext";
 
 //@ts-ignore
-export default function CreateAccountScreen() {
+export default function CreateAccountScreen({navigation}) {
+
+    const { signIn } = useAuth()
 
     const [isFocused, setFocused] = useState<string|null>(null);
 
@@ -20,9 +23,16 @@ export default function CreateAccountScreen() {
 
     const createAccount = async () => {
         const newUser: NewUser = {email, password, mobile}
-        console.log(email + mobile + password + cPassword)
 
-        await createUser(newUser);
+        await createUser(newUser).then(
+            (response) => {
+                console.log(response)
+                signIn()
+            }
+        ).catch(
+            (error) =>
+                console.log(error)
+        );
     }
 
     return (

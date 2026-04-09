@@ -37,19 +37,19 @@ public class UserController {
 
     //Request to find the user by id
     @GetMapping("/{id}")
-    public ResponseEntity<UserDTO.Response> findById(@PathVariable Integer id){
+    public ResponseEntity<UserDTO.Response> findById(@PathVariable Long id){
         return ResponseEntity.ok(userService.findById(id));
     }
     
     //Request to update the user by id
     @PutMapping("/{id}")
-    public ResponseEntity<UserDTO.Response> update(@PathVariable Integer id, @RequestBody @Valid UserDTO.Create userCreateDTO){
+    public ResponseEntity<UserDTO.Response> update(@PathVariable Long id, @RequestBody @Valid UserDTO.Create userCreateDTO){
         return ResponseEntity.ok(userService.update(id, userCreateDTO));
     }
 
     //Request to delete the user by id
     @DeleteMapping("/{id}")
-    public ResponseEntity<UserDTO.Response> delete(@PathVariable Integer id){
+    public ResponseEntity<UserDTO.Response> delete(@PathVariable Long id){
         userService.deleteById(id);
         return ResponseEntity.noContent().build();
     }

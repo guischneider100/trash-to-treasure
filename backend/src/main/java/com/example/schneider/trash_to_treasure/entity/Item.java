@@ -1,6 +1,6 @@
 package com.example.schneider.trash_to_treasure.entity;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,7 +19,7 @@ public class Item {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     private String title;
 
@@ -38,17 +38,21 @@ public class Item {
 
     private boolean taken = false;
 
-    private LocalDateTime postedAt;
+    private Instant postedAt = Instant.now();
 
     @ManyToOne
     @JoinColumn(name = "posted_by", nullable = false)
     private User postedBy;
 
-    public Integer getId() {
+    @ManyToOne
+    @JoinColumn(name = "collected_by", nullable = true)
+    private User collectedBy;
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -108,11 +112,11 @@ public class Item {
         this.taken = taken;
     }
 
-    public LocalDateTime getPostedAt() {
+    public Instant getPostedAt() {
         return postedAt;
     }
 
-    public void setPostedAt(LocalDateTime postedAt) {
+    public void setPostedAt(Instant postedAt) {
         this.postedAt = postedAt;
     }
 
@@ -122,5 +126,13 @@ public class Item {
 
     public void setPostedBy(User postedBy) {
         this.postedBy = postedBy;
+    }
+
+    public User getCollectBy(){
+        return collectedBy;
+    }
+
+    public void setCollectedBy(User collectedBy){
+        this.collectedBy = collectedBy;
     }
 }

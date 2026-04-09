@@ -1,16 +1,31 @@
 import { Image, Pressable, Text, TextInput, View } from 'react-native';
 import { CALENDAR_STYLE, globalStyle } from '../styles/globalStyles'
 import { colors } from '../styles/colors';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import ElipseMenu from '../components/ElipseMenu';
 import {Calendar} from 'react-native-calendars';
+import { getUserById } from '../services/userService';
+import { mapUserFromBackend } from '../utils/userMapper';
+import { ExistingUser } from '../types/User';
 
 // @ts-ignore
 export default function UserScreen() {
+  const [user, setUser] = useState<ExistingUser>()
+
   const [isFocused, setFocused] = useState<string|null>(null);
 
   const [menuVisible, setVisible] = useState(false);
+
+  const fetchData = async () => {
+    const user = await getUserById(1)
+    const mappedUser = mapUserFromBackend(user)
+    setUser(mappedUser)
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, [])
 
   return (
     <View style={globalStyle.body}>
@@ -29,18 +44,18 @@ export default function UserScreen() {
         <Image source={require('../assets/logo.png')} style={globalStyle.logo2}/>
 
           <View style={{width: '100%', borderBottomColor: colors.tertiary, borderBottomWidth: 1, alignItems: 'center', flexDirection: 'row', paddingLeft: 10}}>
-            <Ionicons name="mail-outline" size={20} color={colors.tertiary}/>
-            <TextInput placeholder='Email' placeholderTextColor="#999" style={{width: '90%', height: 55, fontFamily: 'Fredoka_400Regular', paddingLeft: 10}}/>
+            <Ionicons name="key-outline" size={20} color={colors.tertiary}/>
+            <TextInput placeholder='Password' placeholderTextColor="#999" style={{width: '90%', height: 55, fontFamily: 'Fredoka_400Regular', paddingLeft: 10}} editable={false}/>
           </View>
 
           <View style={{width: '100%', borderBottomColor: colors.tertiary, borderBottomWidth: 1, alignItems: 'center', flexDirection: 'row', paddingLeft: 10}}>
-            <Ionicons name="key-outline" size={20} color={colors.tertiary}/>
-            <TextInput placeholder='Password' placeholderTextColor="#999" style={{width: '90%', height: 55, fontFamily: 'Fredoka_400Regular', paddingLeft: 10}}/>
+            <Ionicons name="mail-outline" size={20} color={colors.tertiary}/>
+            <TextInput value={user?.email} placeholder='Email' placeholderTextColor="#999" style={{width: '90%', height: 55, fontFamily: 'Fredoka_400Regular', paddingLeft: 10}} editable={false}/>
           </View>
 
           <View style={{width: '100%', borderBottomColor: colors.tertiary, borderBottomWidth: 1, alignItems: 'center', flexDirection: 'row', paddingLeft: 10}}>
             <Ionicons name="phone-portrait-outline" size={20} color={colors.tertiary}/>
-            <TextInput placeholder='Mobile' placeholderTextColor="#999" style={{width: '90%', height: 55, fontFamily: 'Fredoka_400Regular', paddingLeft: 10}}/>
+            <TextInput value={user?.mobile} placeholder='Mobile' placeholderTextColor="#999" style={{width: '90%', height: 55, fontFamily: 'Fredoka_400Regular', paddingLeft: 10}} editable={false}/>
           </View>
 
           <View style={{paddingTop: 30, alignItems: 'center'}}>

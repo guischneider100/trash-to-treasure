@@ -1,58 +1,49 @@
 package com.example.schneider.trash_to_treasure.service;
 
-import java.util.List;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.example.schneider.trash_to_treasure.dto.ItemFavoriteDTO;
+import com.example.schneider.trash_to_treasure.dto.ItemDTO;
+import com.example.schneider.trash_to_treasure.entity.Item;
 import com.example.schneider.trash_to_treasure.entity.ItemFavorite;
-import com.example.schneider.trash_to_treasure.mapper.ItemFavoriteMapper;
+import com.example.schneider.trash_to_treasure.entity.User;
+import com.example.schneider.trash_to_treasure.mapper.ItemMapper;
 import com.example.schneider.trash_to_treasure.repository.ItemFavoriteRepository;
+import com.example.schneider.trash_to_treasure.repository.ItemRepository;
+import com.example.schneider.trash_to_treasure.repository.UserRepository;
 
 @Service
 public class ItemFavoriteService {
     
     private final ItemFavoriteRepository itemFavoriteRepository;
-    private final ItemFavoriteMapper itemFavoriteMapper;
+    private final ItemRepository itemRepository;
+    private final UserRepository userRepository;
+    private final ItemMapper itemMapper;
 
-    public ItemFavoriteService(ItemFavoriteRepository itemFavoriteRepository, ItemFavoriteMapper itemFavoriteMapper) {
+    public ItemFavoriteService(ItemFavoriteRepository itemFavoriteRepository, ItemRepository itemRepository, UserRepository userRepository, ItemMapper itemMapper) {
         this.itemFavoriteRepository = itemFavoriteRepository;
-        this.itemFavoriteMapper = itemFavoriteMapper;
+        this.itemRepository = itemRepository;
+        this.userRepository = userRepository;
+        this.itemMapper = itemMapper;
     }
 
-    public ItemFavoriteDTO.Response save(ItemFavoriteDTO.Create itemFavoriteCreateDTO){
-        return itemFavoriteMapper.toDTO(itemFavoriteRepository.save(itemFavoriteMapper.toEntity(itemFavoriteCreateDTO)));
+    public ItemDTO.Response save(Long itemId, Long userId){
+        
+        Optional<ItemFavorite> existingItemFav = itemFavoriteRepository.findByItemIdAndUserId(itemId, userId);
+        User existingUser = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found")); 
+        Item existingItem = itemRepository.findById(itemId).orElseThrow(() -> new RuntimeException("Item not found"));
+
+        if(existingItemFav.isPresent()) {
+            itemFavoriteRepository.delete(existingItemFav.get());
+        } else {
+            itemFavoriteRepository.save(new ItemFavorite(existingUser, existingItem));
+        }
+
+        return itemMapper.toDTO(existingItem);
     }
 
-    public ItemFavoriteDTO.Response findById(Integer id){
-        ItemFavorite itemFavorite = itemFavoriteRepository.findById(id)
-                                                          .orElseThrow(() -> new RuntimeException("Item not found"));
-
-        return itemFavoriteMapper.toDTO(itemFavorite);
-    }
-
-    /**
-     * Converts a list of ItemFavorite entities to a list of ItemFavoriteDTOs using the mapper.
-     *
-     * Steps:
-     * 1. Convert the list to a stream to process elements functionally.
-     * 2. Map each ItemFavorite entity to an ItemFavoriteDTO using itemFavoriteMapper.toDTO().
-     * 3. Collect the mapped ItemFavoriteDTOs into a new list.
-     *
-     * @param items List of ItemFavorite entities to convert.
-     * @return List of ItemFavoriteDTOs.
-    */
-    public List<ItemFavoriteDTO.Response> findByUserId(Integer userId){
-        List<ItemFavorite> items = itemFavoriteRepository.findByUserId(userId);
-
-        return items.stream()
-                    .map(itemFavoriteMapper::toDTO)
-                    .collect(Collectors.toList());
-    }
-
-    public void deleteById(Integer id){
+    public void deleteById(Long id){
         itemFavoriteRepository.deleteById(id);
     }
 }

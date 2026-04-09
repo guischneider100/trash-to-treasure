@@ -44,7 +44,7 @@ const CustomTabButton = (props: any) => {
   );
 };
 
-const icons: Record<string, keyof typeof Ionicons.glyphMap> = {
+const icons: Record<string, React.ComponentProps<typeof Ionicons>['name']> = {
   Home: "home-outline",
   Map: "map-outline",
   "My Items": "trash-outline",
@@ -60,7 +60,7 @@ export default function TabNavigator() {
         <Tab.Navigator screenOptions={({ route }) => ({
             tabBarIcon: ({focused, color, size}) => {
                 const iconName = icons[route.name];
-                return <Ionicons name={iconName} size={focused ? size + 4 : size} color={color} />;
+                return <Ionicons name={iconName.toString()} size={focused ? size + 4 : size} color={color} />;
             },
             tabBarButton: (props) => <CustomTabButton {...props} />,
             tabBarActiveTintColor: colors.primary,

@@ -12,6 +12,21 @@ A community-powered app that lets users share and find free street items, promot
 - Frontend: React Native
 - Authentication: JWT
 
+# Features
+
+- Post items found on the street with location
+- Browse items nearby
+- Mark items as collected
+- Item lifecycle: available → collected → removed after set time
+- Upload images
+
+# Roadmap
+
+- Implement JWT authentication
+- Notifications system
+- Map-based browsing
+- Improve UI/UX design
+
 # Contact
 
 Developed by Guilherme Felipe Schneider

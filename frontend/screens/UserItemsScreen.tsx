@@ -1,15 +1,19 @@
-import { Pressable, Text, View } from 'react-native';
-import { globalStyle } from '../styles/globalStyles'
-import ItemCard from '../components/ItemListCard';
-import { colors } from '../styles/colors';
 import { useState } from 'react';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { Pressable, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { colors } from '../styles/colors';
+import { globalStyle } from '../styles/globalStyles';
+import { getItemById } from '../services/itemService';
 
 // @ts-ignore
 export default function UserItemScreen({}) {
 
-  const [selected, setSelected] = useState("Collected Treasure");
-  const options = ["Collected Treasure", "Posted Trash", "Favorites"];
+  const [selected, setSelected] = useState("Favorites");
+  const options = ["Favorites","Collected Treasure", "Posted Trash"];
+
+  const fetchData = async () => {
+    const syncItem = await getItemByUserId()
+  }
 
   return (
     <SafeAreaView style={globalStyle.body} edges={[]}>
@@ -23,7 +27,7 @@ export default function UserItemScreen({}) {
         })}
       </View>
 
-      <ItemCard title='Pile of Trash' description='A really really big pile of trash with a lot of gooood stuff.' photo={require('../assets/trash.jpg')} origin='UserItem'/>
+      {/* <ItemCard title='Pile of Trash' description='A really really big pile of trash with a lot of gooood stuff.' photo={require('../assets/trash.jpg')} origin='UserItem'/> */}
     </SafeAreaView>
   );
 }

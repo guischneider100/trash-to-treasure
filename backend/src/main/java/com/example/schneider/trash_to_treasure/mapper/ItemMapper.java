@@ -15,7 +15,6 @@ public interface ItemMapper {
     @Mapping(source = "postedBy.id", target = "postedByUserId")
     ItemDTO.Response toDTO(Item item);
 
-    @Mapping(source = "postedByUserId", target = "postedBy.id")
     Item toEntity(ItemDTO.Create itemDTO);
     
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

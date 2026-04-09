@@ -7,14 +7,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "item_favorites")
+@Table(name = "item_favorites", uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "item_id"}))
 public class ItemFavorite {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -24,11 +25,19 @@ public class ItemFavorite {
     @JoinColumn(name = "item_id", nullable = false)
     private Item item;
 
-    public Integer getId() {
+    public ItemFavorite() {
+    }
+
+    public ItemFavorite(User user, Item item) {
+        this.user = user;
+        this.item = item;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

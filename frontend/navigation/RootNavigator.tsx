@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import LoadingScreen from "../screens/LoadingScreen";
 import { colors } from "../styles/colors";
-import TabNavigator from "./TabNavigator";
 import AuthNavigator from "./AuthNavigator";
 import AppStack from "./AppStack";
 
