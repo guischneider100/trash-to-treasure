@@ -13,9 +13,9 @@ import com.example.schneider.trash_to_treasure.entity.Item;
 public interface ItemMapper {
 
     @Mapping(source = "postedBy.id", target = "postedByUserId")
+    @Mapping(source = "collectedBy.id", target = "collectedByUserId")
     ItemDTO.Response toDTO(Item item);
 
-    @Mapping(source = "postedByUserId", target = "postedBy.id")
     Item toEntity(ItemDTO.Create itemDTO);
     
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

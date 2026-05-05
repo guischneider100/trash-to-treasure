@@ -1,55 +1,67 @@
-import { ActivityIndicator, Linking, Pressable, View } from 'react-native';
-import MapView, { Marker, PROVIDER_GOOGLE, Region } from 'react-native-maps';
-import { useEffect, useRef, useState } from 'react';
-import * as Location from 'expo-location';
-import { Text } from 'react-native';
-import { DARK_MAP_STYLE, globalStyle } from '../styles/globalStyles';
-import { Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { colors } from '../styles/colors';
-import { Ionicons } from '@expo/vector-icons';
-import LoadingScreen from './LoadingScreen';
-
-const MARKERS = [
-  {
-    id: 1,
-    title: 'Pile of Trash',
-    description: 'A really really big pile of trash with a lot of gooood stuff.',
-    latitudeOffset: 0.002,
-    longitudeOffset: 0.002,
-  },
-  {
-    id: 2,
-    title: 'Pile of Treasure',
-    description: 'Nothing to see here.',
-    latitudeOffset: 0.004,
-    longitudeOffset: 0.004,
-  },
-];
+import { Linking, Pressable, View } from "react-native";
+import MapView, { Marker, PROVIDER_GOOGLE, Region } from "react-native-maps";
+import { useEffect, useMemo, useRef, useState } from "react";
+import * as Location from "expo-location";
+import { Text } from "react-native";
+import { DARK_MAP_STYLE, globalStyle } from "../styles/globalStyles";
+import { Image } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { colors } from "../styles/colors";
+import { Ionicons } from "@expo/vector-icons";
+import LoadingScreen from "./LoadingScreen";
+import { ExistingItem } from "../types/Item";
+import { getAllItems } from "../services/itemService";
+import { getUserLocation } from "../utils/globalFunctions";
 
 // @ts-ignore
-export default function MapScreen() {
+export default function MapScreen({
+  viewingItem,
+}: {
+  viewingItem: ExistingItem;
+}) {
+  const [items, setItems] = useState<ExistingItem[]>([]);
+
   const [location, setLocation] = useState<Region | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedMarker, setSelectedMarker] = useState<number | null>(null);
 
   const navigation = useNavigation() as any;
 
-  async function getUserLocation(): Promise<Region | null> {
-    const { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== 'granted') return null;
-    const { coords } = await Location.getCurrentPositionAsync();
-    return {
-      latitude: coords.latitude,
-      longitude: coords.longitude,
-      latitudeDelta: 0.01,
-      longitudeDelta: 0.01,
-    };
+  const fetchData = async () => {
+    try {
+      const syncItems = await getAllItems();
+      setItems(syncItems);
+    } catch (error) {
+      console.log("error");
+    }
   };
+
+  const itemsMap = useMemo(() => {
+    const map = new Map<number, ExistingItem>();
+    items.forEach((item) => map.set(item.id, item));
+    return map;
+  }, [items]);
+
+  const itemSelected =
+    selectedMarker != null ? itemsMap.get(selectedMarker) : undefined;
 
   useEffect(() => {
     (async () => {
-      const loc = await getUserLocation();
+      var loc = null;
+
+      if (viewingItem) {
+        setSelectedMarker(viewingItem.id)
+        loc = {
+          latitude: viewingItem.latitude,
+          longitude: viewingItem.longitude,
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01,
+        }
+      } else {
+        loc = await getUserLocation()
+      }
+
+      await fetchData();
       setLocation(loc);
       setLoading(false);
     })();
@@ -58,83 +70,129 @@ export default function MapScreen() {
   const mapRef = useRef<MapView>(null);
 
   const goToMyLocation = async () => {
-    try{
+    try {
       mapRef.current?.animateToRegion({
         latitude: location?.latitude!,
         longitude: location?.longitude!,
         latitudeDelta: 0.01,
         longitudeDelta: 0.01,
-      })
-    }catch (err){
+      });
+    } catch (err) {
       console.error("Error to get location: " + err);
     }
-  }
+  };
 
   const openOnGoogleMaps = (latitude: number, longitude: number) => {
-    Linking.openURL(`https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}&travelmode=walking`);
-  }
+    Linking.openURL(
+      `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}&travelmode=walking`,
+    );
+  };
 
   if (loading || !location) {
-    return <LoadingScreen/>;
+    return <LoadingScreen />;
   }
 
-  const accessItem = () => {
-    navigation.navigate("ItemScreen",{ from: "Home"});
+  const accessItem = (item?: ExistingItem) => {
+    if (!item) return;
+    navigation.navigate("ItemFromStreet", { from: "Home", item });
   };
 
   return (
     <View style={{ flex: 1 }}>
-
-      <Pressable style={[globalStyle.roundButton, {bottom: 105, width: 35, height: 35, position: "absolute", zIndex: 100, elevation: 15}]} onPress={goToMyLocation}>
-        <Ionicons name="locate-outline" size={25} color={colors.secondaryBackground}/>
-      </Pressable>
+      {!viewingItem && <><Pressable
+        style={[
+          globalStyle.roundButton,
+          {
+            bottom: 105,
+            width: 35,
+            height: 35,
+            position: "absolute",
+            zIndex: 100,
+            elevation: 15,
+          },
+        ]}
+        onPress={goToMyLocation}
+      >
+        <Ionicons
+          name="locate-outline"
+          size={25}
+          color={colors.secondaryBackground}
+        />
+      </Pressable></>}
 
       <MapView
         style={{ flex: 1 }}
         initialRegion={location}
-        showsUserLocation
+        showsUserLocation={(!viewingItem)}
         showsMyLocationButton={false}
         customMapStyle={DARK_MAP_STYLE}
         scrollEnabled={!selectedMarker}
-        onPress={() => setSelectedMarker(null)}
+        onPress={() => { if (!viewingItem) setSelectedMarker(null) }}
         provider={PROVIDER_GOOGLE}
         ref={mapRef}
       >
-
-        {MARKERS.map(marker => (
+        {(viewingItem ? [viewingItem] : items).map((marker) => (
           <Marker
             key={marker.id}
             coordinate={{
-              latitude: location.latitude + marker.latitudeOffset,
-              longitude: location.longitude + marker.longitudeOffset,
+              latitude: marker.latitude,
+              longitude: marker.longitude,
             }}
             onPress={() => setSelectedMarker(marker.id)}
             anchor={{ x: 0.5, y: 1 }}
           >
-            <Image source={require('../assets/map-icon.png')} style={{width: 40, height: 35, resizeMode: 'contain'}}/>
+            <Image
+              source={require("../assets/map-icon.png")}
+              style={{ width: 40, height: 35, resizeMode: "contain" }}
+            />
           </Marker>
         ))}
-        </MapView>
+      </MapView>
 
-        {selectedMarker && (
-          <Pressable style={globalStyle.mapCard} onPress={accessItem}>
-            <Image source={require('../assets/trash.jpg')} style={globalStyle.imageMapCard}/>
-            <View style={{padding: 5}}>
-              <Text style={globalStyle.titleMapCard}>
-                {MARKERS.find(m => m.id === selectedMarker)?.title}
-              </Text>
-              <Text style={globalStyle.descriptionMapCard}>
-                {MARKERS.find(m => m.id === selectedMarker)?.description}
-              </Text>
-            </View>
+      {selectedMarker && (
+        <Pressable
+          style={globalStyle.mapCard}
+          onPress={() => accessItem(itemSelected)}
+        >
+          <Image
+            source={{uri: itemSelected?.photoUrl}}
+            style={globalStyle.imageMapCard}
+          />
+          <View style={{ padding: 5 }}>
+            <Text style={globalStyle.titleMapCard}>{itemSelected?.title}</Text>
+            <Text style={globalStyle.descriptionMapCard}>
+              {itemSelected?.description}
+            </Text>
+          </View>
 
-            <View style={{alignItems: 'center'}}>
-              <Pressable style={[globalStyle.mainButton, {width: '70%', height: 30}]} onPress={() => openOnGoogleMaps(MARKERS.find(m => m.id === selectedMarker)?.latitudeOffset! + location.latitude, MARKERS.find(m => m.id === selectedMarker)?.longitudeOffset! + location.longitude)}>
-                <Text style={[globalStyle.buttonText, {fontSize: 12, paddingHorizontal: 20, paddingVertical: 5}]}>Show the way</Text>
-              </Pressable>
-            </View>
-          </Pressable>
-        )}
+          <View style={{ alignItems: "center" }}>
+            <Pressable
+              style={[globalStyle.mainButton, { width: "70%", height: 30 }]}
+              onPress={() => {
+                const objLocalization = {
+                  latitude: itemSelected?.latitude,
+                  longitude: itemSelected?.longitude,
+                };
+
+                if (objLocalization.latitude && objLocalization.longitude)
+                  openOnGoogleMaps(
+                    objLocalization.latitude,
+                    objLocalization.longitude,
+                  );
+              }}
+            >
+              <Text
+                style={[
+                  globalStyle.buttonText,
+                  { fontSize: 12, paddingHorizontal: 20, paddingVertical: 5 },
+                ]}
+              >
+                Show the way
+              </Text>
+            </Pressable>
+          </View>
+        </Pressable>
+      )}
     </View>
   );
 }

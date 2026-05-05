@@ -4,6 +4,8 @@ import { Dimensions } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
 
+export const windowWidth = width;
+
 export const DARK_MAP_STYLE = [
   { elementType: 'geometry', stylers: [{ color: '#3F434C' }] },
   { elementType: 'labels.icon', stylers: [{ visibility: 'off' }] },
@@ -128,8 +130,8 @@ export const globalStyle = StyleSheet.create({
     marginTop: 20,
     marginBottom: 10,
     borderRadius: 15,
-    width: width * 0.65,
-    height: 330,
+    width: width * 0.90,
+    height: 400,
     borderStyle: 'dashed',
     borderWidth: 2,
     opacity: 0.6,
@@ -140,8 +142,8 @@ export const globalStyle = StyleSheet.create({
 
   photoDisplay: {
     marginTop: 20,
-    width: width * 0.65,
-    height: 330,
+    width: width * 0.90,
+    height: 400,
     borderRadius: 15,
   },
 
@@ -152,7 +154,7 @@ export const globalStyle = StyleSheet.create({
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 1,
     fontSize: 15,
-    paddingHorizontal: 15,
+    paddingHorizontal: 5,
     paddingVertical: 10,
   },
 
@@ -314,7 +316,7 @@ export const globalStyle = StyleSheet.create({
 
   itemImg: {
     width: '100%',
-    height: 350,
+    aspectRatio: 1.1
   },
 
   itemCard: {
@@ -380,7 +382,7 @@ export const globalStyle = StyleSheet.create({
   },
 
   titleMapCard: {
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: '600',
     marginBottom: 4,
     fontFamily: 'Fredoka_500Medium',
@@ -388,7 +390,7 @@ export const globalStyle = StyleSheet.create({
   },
 
   descriptionMapCard: {
-    fontSize: 10,
+    fontSize: 13,
     color: colors.darkText,
     fontFamily: 'Fredoka_400Regular',
   },

@@ -1,6 +1,6 @@
 package com.example.schneider.trash_to_treasure.dto;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 import com.example.schneider.trash_to_treasure.entity.ItemCondition;
 
@@ -11,22 +11,23 @@ public class ItemDTO {
     
     public static class Response {
     
-        private Integer id;
+        private Long id;
         private String title;
         private String description;
         private String photoUrl;
         private ItemCondition condition;
         private Double latitude;
         private Double longitude;
-        private boolean taken = false;
-        private LocalDateTime postedAt;
-        private Integer postedByUserId;
+        private Instant postedAt;
+        private Long postedByUserId;
+        private Long collectedByUserId;
+        private boolean isFavorite;
 
-        public Integer getId() {
+        public Long getId() {
             return id;
         }
 
-        public void setId(Integer id) {
+        public void setId(Long id) {
             this.id = id;
         }
 
@@ -78,28 +79,36 @@ public class ItemDTO {
             this.longitude = longitude;
         }
 
-        public boolean isTaken() {
-            return taken;
-        }
-
-        public void setTaken(boolean taken) {
-            this.taken = taken;
-        }
-
-        public LocalDateTime getPostedAt() {
+        public Instant getPostedAt() {
             return postedAt;
         }
 
-        public void setPostedAt(LocalDateTime postedAt) {
+        public void setPostedAt(Instant postedAt) {
             this.postedAt = postedAt;
         }
 
-        public Integer getPostedByUserId() {
+        public Long getPostedByUserId() {
             return postedByUserId;
         }
 
-        public void setPostedByUserId(Integer postedByUserId) {
+        public void setPostedByUserId(Long postedByUserId) {
             this.postedByUserId = postedByUserId;
+        }
+
+        public Long getCollectedByUserId(){
+            return collectedByUserId;
+        }
+
+        public void setCollectedByUserId(Long collectedByUserId) {
+            this.collectedByUserId = collectedByUserId;
+        }
+
+        public boolean getIsFavorite(){
+            return isFavorite;
+        }
+
+        public void setIsFavorite(boolean isFavorite){
+            this.isFavorite = isFavorite;
         }
     }
 
@@ -110,8 +119,6 @@ public class ItemDTO {
 
         private String description;
 
-        private String photoUrl;
-
         @NotNull
         private ItemCondition condition;
 
@@ -120,9 +127,6 @@ public class ItemDTO {
 
         @NotNull
         private Double longitude;
-
-        @NotNull
-        private Integer postedByUserId;
 
         public String getTitle() {
             return title;
@@ -138,14 +142,6 @@ public class ItemDTO {
 
         public void setDescription(String description) {
             this.description = description;
-        }
-
-        public String getPhotoUrl() {
-            return photoUrl;
-        }
-
-        public void setPhotoUrl(String photoUrl) {
-            this.photoUrl = photoUrl;
         }
 
         public ItemCondition getCondition() {
@@ -171,30 +167,17 @@ public class ItemDTO {
         public void setLongitude(Double longitude) {
             this.longitude = longitude;
         }
-
-        public Integer getPostedByUserId() {
-            return postedByUserId;
-        }
-
-        public void setPostedByUserId(Integer postedByUserId) {
-            this.postedByUserId = postedByUserId;
-        }
     }
 
     public static class Update {
     
-        @NotBlank
         private String title;
 
         private String description;
 
         private String photoUrl;
 
-        @NotNull
         private ItemCondition condition;
-
-        @NotNull
-        private boolean taken;
         
         public String getTitle() {
             return title;
@@ -226,14 +209,6 @@ public class ItemDTO {
 
         public void setCondition(ItemCondition condition) {
             this.condition = condition;
-        }
-
-        public boolean isTaken() {
-            return taken;
-        }
-
-        public void setTaken(boolean taken) {
-            this.taken = taken;
         }
     }
 }

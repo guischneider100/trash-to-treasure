@@ -24,6 +24,7 @@ db_data/
 /backend/.mvn/wrapper/maven-wrapper.jar
 !/backend/**/src/main/**/target/
 !/backend/**/src/test/**/target/
+/backend/Requisitions.http
 
 ### STS ###
 /backend/.apt_generated

@@ -3,7 +3,6 @@ package com.example.schneider.trash_to_treasure.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -22,14 +21,18 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable()) //Desactivates CSRF protection (not necessary for REST API)
-            .authorizeHttpRequests(auth -> 
-                                   auth.requestMatchers("/api/auth/**").permitAll() //Allows login and registration
-                                   .requestMatchers(HttpMethod.GET, "/api/item/**").permitAll() //Allows GET from items
-                                   .requestMatchers(HttpMethod.POST, "/api/item").permitAll() //Allows POST from items
-                                   .requestMatchers("/api/item_favorite/**").authenticated() //Protects all the info about favorites
-                                   .requestMatchers(HttpMethod.PUT, "/api/item/**").authenticated()
-                                   .requestMatchers(HttpMethod.DELETE, "/api/item/**").authenticated() //Protects all updates and deletes
-                                   .anyRequest().authenticated()) //Requests token for the rest
+            // .authorizeHttpRequests(auth -> 
+            //                        auth.requestMatchers("/api/auth/**").permitAll() //Allows login and registration
+            //                        .requestMatchers(HttpMethod.GET, "/api/item/**").permitAll() //Allows GET from items
+            //                        .requestMatchers(HttpMethod.GET, "/api/user/**").permitAll() //ALLOWS ANY USER TO GET INFO (WARNING)
+            //                        .requestMatchers(HttpMethod.POST, "/api/item").permitAll() //Allows POST from items
+            //                        .requestMatchers("/api/item_favorite/**").authenticated() //Protects all the info about favorites
+            //                        .requestMatchers(HttpMethod.PUT, "/api/item/**").authenticated()
+            //                        .requestMatchers(HttpMethod.DELETE, "/api/item/**").authenticated() //Protects all updates and deletes
+            //                        .anyRequest().authenticated()) //Requests token for the rest
+            .authorizeHttpRequests(auth ->
+                auth.requestMatchers("/**").permitAll()
+            ) //Authorizes any request (DEV ONLY)
             .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) //Withou session (JWT)
             .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class); //Add filters before default authentication
 

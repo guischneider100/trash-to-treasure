@@ -6,24 +6,24 @@ public class UserDTO {
     
     public static class Response{
         
-        private Integer id;
+        private Long id;
         private String email;
         private String password;
         private String mobile;
 
-        public Integer getId() {
+        public Long getId() {
             return id;
         }
 
-        public void setId(Integer id) {
+        public void setId(Long id) {
             this.id = id;
         }
 
-        public String getUsername() {
+        public String getEmail() {
             return email;
         }
 
-        public void setUsername(String email) {
+        public void setEmail(String email) {
             this.email = email;
         }
 
@@ -55,11 +55,11 @@ public class UserDTO {
         @NotNull
         private String mobile;
 
-        public String getUsername() {
+        public String getEmail() {
             return email;
         }
 
-        public void setUsername(String email) {
+        public void setEmail(String email) {
             this.email = email;
         }
 

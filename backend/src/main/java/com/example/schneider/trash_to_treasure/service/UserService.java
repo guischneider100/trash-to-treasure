@@ -24,7 +24,7 @@ public class UserService {
     }
 
     public UserDTO.Response register(UserDTO.Create useCreateDTO){
-        if(userRepository.existsByUsername(useCreateDTO.getUsername())){
+        if(userRepository.existsByEmail(useCreateDTO.getEmail())){
             throw new RuntimeException("Email already exists");
         }
 
@@ -38,14 +38,14 @@ public class UserService {
         return userMapper.toDTO(user);
     }
 
-    public UserDTO.Response findById(Integer id){
+    public UserDTO.Response findById(Long id){
         User user = userRepository.findById(id)
                                   .orElseThrow(() -> new RuntimeException("User not found"));
 
         return userMapper.toDTO(user);
     }
 
-    public UserDTO.Response update(Integer id, UserDTO.Create userNewData){
+    public UserDTO.Response update(Long id, UserDTO.Create userNewData){
         User existingUser = userRepository.findById(id)
                                   .orElseThrow(() -> new RuntimeException("User not found"));
         
@@ -55,7 +55,7 @@ public class UserService {
         return userMapper.toDTO(userRepository.save(existingUser));
     }
 
-    public void deleteById(Integer id){
+    public void deleteById(Long id){
         userRepository.deleteById(id);
     }
 }

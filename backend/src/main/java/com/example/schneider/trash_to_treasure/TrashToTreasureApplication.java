@@ -18,6 +18,8 @@ public class TrashToTreasureApplication {
 		System.setProperty("POSTGRES_DB", dotenv.get("POSTGRES_DB"));
 		System.setProperty("POSTGRES_USER", dotenv.get("POSTGRES_USER"));
     	System.setProperty("POSTGRES_PASSWORD", dotenv.get("POSTGRES_PASSWORD"));
+		System.setProperty("CLOUDINARY_API_KEY", dotenv.get("CLOUDINARY_API_KEY"));
+    	System.setProperty("CLOUDINARY_API_SECRET", dotenv.get("CLOUDINARY_API_SECRET"));
 
 		SpringApplication.run(TrashToTreasureApplication.class, args);
 
