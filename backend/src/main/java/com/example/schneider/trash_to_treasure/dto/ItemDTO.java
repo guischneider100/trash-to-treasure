@@ -18,7 +18,6 @@ public class ItemDTO {
         private ItemCondition condition;
         private Double latitude;
         private Double longitude;
-        private boolean taken = false;
         private Instant postedAt;
         private Long postedByUserId;
         private Long collectedByUserId;
@@ -80,14 +79,6 @@ public class ItemDTO {
             this.longitude = longitude;
         }
 
-        public boolean isTaken() {
-            return taken;
-        }
-
-        public void setTaken(boolean taken) {
-            this.taken = taken;
-        }
-
         public Instant getPostedAt() {
             return postedAt;
         }
@@ -128,8 +119,6 @@ public class ItemDTO {
 
         private String description;
 
-        private String photoUrl;
-
         @NotNull
         private ItemCondition condition;
 
@@ -153,14 +142,6 @@ public class ItemDTO {
 
         public void setDescription(String description) {
             this.description = description;
-        }
-
-        public String getPhotoUrl() {
-            return photoUrl;
-        }
-
-        public void setPhotoUrl(String photoUrl) {
-            this.photoUrl = photoUrl;
         }
 
         public ItemCondition getCondition() {
@@ -197,8 +178,6 @@ public class ItemDTO {
         private String photoUrl;
 
         private ItemCondition condition;
-
-        private Boolean taken;
         
         public String getTitle() {
             return title;
@@ -230,14 +209,6 @@ public class ItemDTO {
 
         public void setCondition(ItemCondition condition) {
             this.condition = condition;
-        }
-
-        public boolean isTaken() {
-            return taken;
-        }
-
-        public void setTaken(boolean taken) {
-            this.taken = taken;
         }
     }
 }

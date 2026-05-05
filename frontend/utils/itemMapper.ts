@@ -1,15 +1,14 @@
 import { ExistingItem } from "../types/Item";
-import { ItemType } from "../types/ItemType";
+import { ItemConditionList } from "../types/ItemCondition";
 
 export const mapItemFromBackend = (item: any): ExistingItem => ({
     id: item.id,
     title: item.title,
     description: item.description,
     photoUrl: item.photoUrl,
-    condition: (ItemType[item.condition as keyof typeof ItemType] ?? ItemType.Unknown),
+    condition: (ItemConditionList[item.condition as keyof typeof ItemConditionList] ?? ItemConditionList.Unknown),
     latitude: item.latitude,
     longitude: item.longitude,
-    taken: item.taken,
     postedAt: item.postedAt,
     postedByUserId: item.postedByUserId,
     collectedByUserId: item.collectedByUserId,

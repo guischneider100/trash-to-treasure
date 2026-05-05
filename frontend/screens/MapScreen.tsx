@@ -11,7 +11,7 @@ import { Ionicons } from "@expo/vector-icons";
 import LoadingScreen from "./LoadingScreen";
 import { ExistingItem } from "../types/Item";
 import { getAllItems } from "../services/itemService";
-import { mapItemFromBackend } from "../utils/itemMapper";
+import { getUserLocation } from "../utils/globalFunctions";
 
 // @ts-ignore
 export default function MapScreen({
@@ -29,9 +29,8 @@ export default function MapScreen({
 
   const fetchData = async () => {
     try {
-      const data = await getAllItems();
-      const mappedData = data.map(mapItemFromBackend);
-      setItems(mappedData);
+      const syncItems = await getAllItems();
+      setItems(syncItems);
     } catch (error) {
       console.log("error");
     }
@@ -46,33 +45,22 @@ export default function MapScreen({
   const itemSelected =
     selectedMarker != null ? itemsMap.get(selectedMarker) : undefined;
 
-  async function getUserLocation(): Promise<Region | null> {
-    const obj = {
-      latitude: 0.01,
-      longitude: 0.01,
-      latitudeDelta: 0.01,
-      longitudeDelta: 0.01,
-    };
-
-    const { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== "granted") return null;
-    const { coords } = await Location.getCurrentPositionAsync();
-
-    if (viewingItem){
-      setSelectedMarker(viewingItem.id)
-      return {
-        ...obj,
-        latitude: viewingItem.latitude,
-        longitude: viewingItem.longitude,
-      };
-    }
-
-    return { ...obj, latitude: coords.latitude, longitude: coords.longitude };
-  }
-
   useEffect(() => {
     (async () => {
-      const loc = await getUserLocation();
+      var loc = null;
+
+      if (viewingItem) {
+        setSelectedMarker(viewingItem.id)
+        loc = {
+          latitude: viewingItem.latitude,
+          longitude: viewingItem.longitude,
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01,
+        }
+      } else {
+        loc = await getUserLocation()
+      }
+
       await fetchData();
       setLocation(loc);
       setLoading(false);
@@ -111,7 +99,7 @@ export default function MapScreen({
 
   return (
     <View style={{ flex: 1 }}>
-      <Pressable
+      {!viewingItem && <><Pressable
         style={[
           globalStyle.roundButton,
           {
@@ -130,16 +118,16 @@ export default function MapScreen({
           size={25}
           color={colors.secondaryBackground}
         />
-      </Pressable>
+      </Pressable></>}
 
       <MapView
         style={{ flex: 1 }}
         initialRegion={location}
-        showsUserLocation
+        showsUserLocation={(!viewingItem)}
         showsMyLocationButton={false}
         customMapStyle={DARK_MAP_STYLE}
         scrollEnabled={!selectedMarker}
-        onPress={() => { if(!viewingItem) setSelectedMarker(null) }}
+        onPress={() => { if (!viewingItem) setSelectedMarker(null) }}
         provider={PROVIDER_GOOGLE}
         ref={mapRef}
       >
@@ -167,7 +155,7 @@ export default function MapScreen({
           onPress={() => accessItem(itemSelected)}
         >
           <Image
-            source={require("../assets/trash.jpg")}
+            source={{uri: itemSelected?.photoUrl}}
             style={globalStyle.imageMapCard}
           />
           <View style={{ padding: 5 }}>

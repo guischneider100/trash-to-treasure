@@ -5,7 +5,6 @@ export interface Item {
     condition: string,
     latitude: number,
     longitude: number,
-    taken: boolean,
     postedAt: string,
     postedByUserId: number,
     collectedByUserId: number,

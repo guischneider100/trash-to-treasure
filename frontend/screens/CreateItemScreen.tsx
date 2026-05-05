@@ -1,14 +1,16 @@
-import { Alert, Pressable, Text, View, Image, TextInput } from "react-native"
-import { globalStyle } from "../styles/globalStyles"
+import { Alert, Pressable, Text, View, Image, TextInput, ActivityIndicator, Dimensions } from "react-native"
+import { globalStyle, windowWidth } from "../styles/globalStyles"
 import { useEffect, useState } from "react"
 import * as ImagePicker from 'expo-image-picker'
+import * as ImageManipulator from 'expo-image-manipulator'
 import { createItem } from "../services/itemService"
 import { NewItem } from "../types/Item"
-import { ItemType } from "../types/ItemType"
+import { ItemConditionList } from "../types/ItemCondition"
 import { colors } from "../styles/colors"
 import DropDownPicker from "react-native-dropdown-picker"
+import { getUserLocation } from "../utils/globalFunctions"
 
-type ItemTypeKey = keyof typeof ItemType
+type ItemTypeKey = keyof typeof ItemConditionList
 
 //@ts-ignore
 export default function CreateItemScreen({navigation}){
@@ -20,22 +22,35 @@ export default function CreateItemScreen({navigation}){
     const [description, setDescription] = useState("")
     const [condition, setCondition] = useState<ItemTypeKey|null>("NEW")
 
+    const [sending, setSending] = useState(false)
+
     useEffect(() => {
         open ? setFocused("condition") : setFocused(null)
     }, [open])
 
-    const [itemConditions, setItemConditions] = useState(Object.entries(ItemType).map(([key, label]) => ({
+    const [itemConditions, setItemConditions] = useState(Object.entries(ItemConditionList).map(([key, label]) => ({
         label,
         value: key as ItemTypeKey
     })))
 
     const handleSend = async () => {
-        const photoUrl: string = ""
-        const latitude: number = 0.00
-        const longitude: number = 0.00
-        const taken = false
-        const postedAt = ""
-        const newItem: NewItem = {title, description, photoUrl, condition: condition!, latitude, longitude, taken, postedAt}
+        setSending(true)
+        const newItem = new FormData()
+        const loc = await getUserLocation()
+
+        newItem.append("data", JSON.stringify({
+            title: title,
+            description: description,
+            condition: condition!,
+            latitude: loc?.latitude,
+            longitude: loc?.longitude
+        }))
+
+        newItem.append("file", {
+            uri: imageUri,
+            name: `treasure-photo-${Date.now()}.jpeg`,
+            type: "image/jpeg",
+        } as any)
 
         await createItem(newItem).then(
             (response) => {
@@ -58,12 +73,18 @@ export default function CreateItemScreen({navigation}){
         }
 
         const result = await ImagePicker.launchCameraAsync({
-            allowsEditing: true,
             quality: 1,
+            aspect: [1,1]
         })
 
         if (!result.canceled && result.assets.length > 0) {
-            setImageUri(result.assets[0].uri)
+            const manipulated = await ImageManipulator.manipulateAsync(
+                result.assets[0].uri,
+                [{resize: { width: 750 }}],
+                { compress: 0.8, format: ImageManipulator.SaveFormat.JPEG }
+            )
+
+            setImageUri(manipulated.uri)
         }
     }
 
@@ -85,8 +106,10 @@ export default function CreateItemScreen({navigation}){
 
             <View style={globalStyle.footer}>
                 <View style={globalStyle.bottomInputContainer}>
-                <Pressable style={[globalStyle.mainButton, {width: 260}]} onPress={handleSend}>
-                    <Text style={globalStyle.buttonText}>Create Trash</Text>
+                <Pressable style={[globalStyle.mainButton, {width: 260}]} disabled={sending} onPress={handleSend}>
+                    {sending ? (<ActivityIndicator size={30} color={colors.secondaryBackground}></ActivityIndicator>)
+                        :
+                    (<Text style={globalStyle.buttonText}>Create Trash</Text>)}
                 </Pressable>
                 </View>
             </View>

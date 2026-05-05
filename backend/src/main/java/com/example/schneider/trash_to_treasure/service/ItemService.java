@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.schneider.trash_to_treasure.dto.ItemDTO;
 import com.example.schneider.trash_to_treasure.entity.Item;
@@ -21,14 +22,16 @@ public class ItemService {
     private final ItemFavoriteRepository itemFavoriteRepository;
     private final ItemRepository itemRepository;
     private final ItemMapper itemMapper;
+    private final ImageService imageService;
 
     private final UserRepository userRepository;
 
-    public ItemService(ItemRepository itemRepository, ItemMapper itemMapper, ItemFavoriteRepository itemFavoriteRepository, UserRepository userRepository){
+    public ItemService(ItemRepository itemRepository, ItemMapper itemMapper, ItemFavoriteRepository itemFavoriteRepository, UserRepository userRepository, ImageService imageService){
         this.itemRepository = itemRepository;
         this.itemMapper = itemMapper;
         this.itemFavoriteRepository = itemFavoriteRepository;
         this.userRepository = userRepository;
+        this.imageService = imageService;
     }
 
     public List<ItemDTO.Response> findAll(){
@@ -39,9 +42,12 @@ public class ItemService {
             .collect(Collectors.toList());
     }
 
-    public ItemDTO.Response save(ItemDTO.Create itemCreateDTO){
+    public ItemDTO.Response save(ItemDTO.Create itemCreateDTO, MultipartFile file){
         Item itemSa = itemMapper.toEntity(itemCreateDTO);
+        itemSa.setPhotoUrl(imageService.uploadImage(file));
         itemSa.setPostedAt(Instant.now());
+        Optional<User> user = userRepository.findById(1l);
+        itemSa.setPostedBy(user.get());
         return itemMapper.toDTO(itemRepository.save(itemSa));
     }
 
@@ -51,31 +57,56 @@ public class ItemService {
     }
     
     public List<ItemDTO.Response> findByCordinates(Double latitudeUser, Double longitudeUser, Double area){
-        List<Item> items = itemRepository.findByCordinates(latitudeUser, longitudeUser, area);
+
+        double earthRadius = 6371.0;
+        double deltaLat = area / earthRadius;
+        double deltaLon = area / (earthRadius * Math.cos(Math.toRadians(latitudeUser)));
+        
+        double minLat = latitudeUser - Math.toDegrees(deltaLat);
+        double maxLat = latitudeUser + Math.toDegrees(deltaLat);
+
+        double minLon = longitudeUser - Math.toDegrees(deltaLon);
+        double maxLon = longitudeUser + Math.toDegrees(deltaLon);
+
+        List<Item> items = itemRepository.findByCordinates(minLat, maxLat, minLon, maxLon);
         return items.stream()
                     .map(itemMapper::toDTO)
                     .collect(Collectors.toList());
+    }
+
+    public List<ItemDTO.Response> findPostedByUser() {
+        Optional<User> user = userRepository.findById(1l);
+        return itemRepository.findByPostedBy(user).stream()
+                                                  .map(itemMapper::toDTO)
+                                                  .collect(Collectors.toList());
+    }
+
+    public List<ItemDTO.Response> findCollectedByUser() {
+        Optional<User> user = userRepository.findById(1l);
+        return itemRepository.findByCollectedBy(user).stream()
+                                                     .map(itemMapper::toDTO)
+                                                     .collect(Collectors.toList());
     }
     
     public ItemDTO.Response update(Long id, ItemDTO.Update itemNewData){
         Item existingItem = itemRepository.findById(id)
                                           .orElseThrow(() -> new RuntimeException("Item not found"));
 
-        //Update Entity with DTO data
         itemMapper.updateEntityFromDTO(itemNewData, existingItem);
         return itemMapper.toDTO(itemRepository.save(existingItem));
     }
 
     public ItemDTO.Response collectItem(Long id) {
+
         Item existingItem = itemRepository.findById(id)
                                           .orElseThrow(() -> new RuntimeException("Item not found"));
 
-        if(existingItem.isTaken()){
+        System.out.println("Esse collected: " + existingItem.getCollectedBy());
+
+        if(existingItem.getCollectedBy() != null){
             throw new RuntimeException("Item already taken");
         }
-        existingItem.setTaken(true);
 
-        
         Optional<User> user = userRepository.findById(1l);
         existingItem.setCollectedBy(user.get());
 
@@ -92,7 +123,6 @@ public class ItemService {
 
         ItemDTO.Response dto = itemMapper.toDTO(item);
         dto.setIsFavorite(itemFavoriteRepository.findByItemIdAndUserId(item.getId(), user.get().getId()).isPresent());
-        System.out.println(dto.getIsFavorite());
         return dto;
     }
 }

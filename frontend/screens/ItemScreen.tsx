@@ -10,8 +10,9 @@ import MaskedView from "@react-native-masked-view/masked-view"
 import { useEffect, useState } from "react"
 import { getItemById, collectTreasureById, favoriteItem } from "../services/itemService"
 
-import { formatDistanceToNow } from 'date-fns';
+import { formatDistanceToNowStrict } from 'date-fns';
 import MapScreen from "./MapScreen"
+import { ItemConditionColor, ItemConditionList } from "../types/ItemCondition"
 
 // @ts-ignore
 export default function ItemScreen({ navigation }) {
@@ -21,9 +22,15 @@ export default function ItemScreen({ navigation }) {
 
   const route = useRoute<RouteProp<RootStackParList, "ItemScreen">>()
   const from = route.params?.from
+  const fromType = route.params?.fromType
   const [item, setItem] = useState(route.params?.item)
 
   const [timeAgo, setTimeAgo] = useState("")
+
+  const itemCondition = ItemConditionColor[item.condition as keyof typeof ItemConditionColor]
+  const conditionColor = itemCondition.color
+  const conditionIcon = itemCondition.icon
+  const statusColor = item.collectedByUserId ? colors.warning1 : colors.primary
 
   const confirmCollectTreasure = () => {
     Alert.alert(
@@ -43,7 +50,7 @@ export default function ItemScreen({ navigation }) {
 
   const handleFavorite = async () => {
     await favoriteItem(item.id).then(
-      () => {setFavorite(x => !x)}
+      () => { setFavorite(x => !x) }
     )
   }
 
@@ -56,9 +63,8 @@ export default function ItemScreen({ navigation }) {
   const fetchItem = async () => {
     try {
       const syncItem = await getItemById(item.id)
-      setTimeAgo(formatDistanceToNow(new Date(syncItem.postedAt)) + " ago")
+      setTimeAgo(formatDistanceToNowStrict(new Date(syncItem.postedAt)) + " ago")
       setItem(syncItem)
-      console.log(syncItem.isFavorite)
       setFavorite(syncItem.isFavorite)
     } catch (error) {
       console.log(error)
@@ -72,8 +78,9 @@ export default function ItemScreen({ navigation }) {
   return (
     <SafeAreaView style={globalStyle.body} edges={[]}>
       <Image
-        source={require("../assets/trash.jpg")}
+        source={{uri: item.photoUrl}}
         style={globalStyle.itemImg}
+        resizeMode="cover"
       />
       <Pressable style={[globalStyle.roundButton2, { left: 20 }]}>
         <Ionicons
@@ -133,19 +140,19 @@ export default function ItemScreen({ navigation }) {
             }}
           >
             <Ionicons
-              name={"bag-check-outline"}
+              name={item.collectedByUserId ? "bag-remove-outline" : "bag-check-outline"}
               size={30}
-              color={colors.tertiary}
+              color={statusColor}
               style={{ paddingRight: 5 }}
             />
             <Text
               style={{
-                color: colors.tertiary,
+                color: statusColor,
                 fontSize: 13,
                 fontFamily: "Fredoka_400Regular",
               }}
             >
-              {item.taken ? "Taken" : "Available"}
+              {item.collectedByUserId ? "Taken" : "Available"}
             </Text>
           </View>
 
@@ -160,14 +167,14 @@ export default function ItemScreen({ navigation }) {
             }}
           >
             <Ionicons
-              name={"trash-outline"}
+              name={conditionIcon}
               size={30}
-              color={colors.warning1}
+              color={conditionColor}
               style={{ paddingRight: 3 }}
             />
             <Text
               style={{
-                color: colors.warning1,
+                color: conditionColor,
                 fontSize: 13,
                 fontFamily: "Fredoka_400Regular",
               }}
@@ -227,18 +234,18 @@ export default function ItemScreen({ navigation }) {
         </MaskedView>
       </View>
 
-      <View style={globalStyle.footer}>
+      {fromType != "Collected Treasure" && <View style={globalStyle.footer}>
         <View style={globalStyle.bottomInputContainer}>
           <Pressable
             style={[globalStyle.mainButton, { width: 260 }]}
             onPress={confirmCollectTreasure}
           >
             <Text style={globalStyle.buttonText}>
-              {from == "Home" ? "Transform into Treasure" : "Update Treasure"}
+              {from == "ItemFromStreet" || fromType == "Favorites" ? "Transform into Treasure" : "Update Treasure"}
             </Text>
           </Pressable>
         </View>
-      </View>
+      </View>}
     </SafeAreaView>
   )
 }

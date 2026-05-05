@@ -3,6 +3,7 @@ import ItemScreen from '../screens/ItemScreen';
 import CreateItemScreen from '../screens/CreateItemScreen';
 import TabNavigator from './TabNavigator';
 import { colors } from '../styles/colors';
+import Filters from '../components/Filters';
 
 export default function AppStack() {
 

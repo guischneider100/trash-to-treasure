@@ -36,8 +36,6 @@ public class Item {
 
     private Double longitude;
 
-    private boolean taken = false;
-
     private Instant postedAt = Instant.now();
 
     @ManyToOne
@@ -104,14 +102,6 @@ public class Item {
         this.longitude = longitude;
     }
 
-    public boolean isTaken() {
-        return taken;
-    }
-
-    public void setTaken(boolean taken) {
-        this.taken = taken;
-    }
-
     public Instant getPostedAt() {
         return postedAt;
     }
@@ -128,7 +118,7 @@ public class Item {
         this.postedBy = postedBy;
     }
 
-    public User getCollectBy(){
+    public User getCollectedBy(){
         return collectedBy;
     }
 

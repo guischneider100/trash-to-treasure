@@ -1,6 +1,8 @@
 package com.example.schneider.trash_to_treasure.service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -28,10 +30,10 @@ public class ItemFavoriteService {
         this.itemMapper = itemMapper;
     }
 
-    public ItemDTO.Response save(Long itemId, Long userId){
-        
-        Optional<ItemFavorite> existingItemFav = itemFavoriteRepository.findByItemIdAndUserId(itemId, userId);
-        User existingUser = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found")); 
+    public ItemDTO.Response save(Long itemId){
+        Optional<User> user = userRepository.findById(1l);
+        Optional<ItemFavorite> existingItemFav = itemFavoriteRepository.findByItemIdAndUserId(itemId, user.get().getId());
+        User existingUser = userRepository.findById(user.get().getId()).orElseThrow(() -> new RuntimeException("User not found")); 
         Item existingItem = itemRepository.findById(itemId).orElseThrow(() -> new RuntimeException("Item not found"));
 
         if(existingItemFav.isPresent()) {
@@ -41,6 +43,15 @@ public class ItemFavoriteService {
         }
 
         return itemMapper.toDTO(existingItem);
+    }
+
+    public List<ItemDTO.Response> findAllFavoritedByUser(){
+        Optional<User> user = userRepository.findById(1l);
+        
+        return itemFavoriteRepository.findFavoritedItensByUser(user.get().getId())
+                                     .stream()
+                                     .map(itemMapper::toDTO)
+                                     .collect(Collectors.toList());
     }
 
     public void deleteById(Long id){

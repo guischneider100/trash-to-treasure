@@ -14,27 +14,24 @@ type Props = {
   item:{
     title: string;
     description?: string;
-    photo?: any;
+    photoUrl?: any;
   }
   origin: string;
+  originType: string;
 };
 
 const { width } = Dimensions.get("window");
 
-export default function ItemCard({ item, origin }: Props) {
+export default function ItemCard({ item, origin, originType }: Props) {
   const navigation = useNavigation() as any;
 
-  const navPag = origin == "HomeScreen" ? "ItemFromStreet" : "ItemFromUser";
-
   const accessItem = () => {
-    navigation.navigate(navPag, { from: [origin], item });
+    navigation.navigate(origin, { from: [origin], fromType: [originType], item });
   };
-
-  item.photo = require("../assets/trash.jpg")
 
   return (
     <Pressable style={styles.card} onPress={accessItem}>
-      {item.photo && <Image source={item.photo} style={styles.image} />}
+      {item.photoUrl && <Image source={{ uri: item.photoUrl }} style={styles.image} />}
       <View style={styles.content}>
         <Text style={styles.title}>{item.title}</Text>
         {item.description && <Text style={styles.description}>{item.description}</Text>}
@@ -58,20 +55,20 @@ const styles = StyleSheet.create({
   },
   image: {
     width: "100%",
-    height: 180,
+    height: 240
   },
   content: {
     padding: 10,
   },
   title: {
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: "600",
     marginBottom: 4,
     fontFamily: "Fredoka_500Medium",
     color: colors.darkText,
   },
   description: {
-    fontSize: 14,
+    fontSize: 15,
     color: colors.darkText,
     fontFamily: "Fredoka_400Regular",
   },
