@@ -9,7 +9,7 @@ import AppStack from "./AppStack";
 const Stack = createNativeStackNavigator();
 
 export default function RootNavigator(){
-    const { logged } = useAuth();
+    const { user } = useAuth();
     const [loading, setLoading] = React.useState(true);
 
     React.useEffect(() => {
@@ -21,7 +21,7 @@ export default function RootNavigator(){
 
     return (
         <Stack.Navigator screenOptions={{ headerShown: false, headerStyle: {backgroundColor: colors.secondaryBackground}, headerTitleStyle: {fontFamily: 'Fredoka_500Medium'}}}>
-            {logged ? 
+            {user ? 
                 <Stack.Screen name="AppStack" component={AppStack} />
             :
                 <Stack.Screen name="Auth" component={AuthNavigator} />

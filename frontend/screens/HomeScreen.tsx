@@ -13,7 +13,7 @@ import {
 } from "react-native"
 import Modal from 'react-native-modal'
 import ItemCard from "../components/ItemListCard"
-import { getAllItems, getItemsByCordinates } from "../services/itemService"
+import { getItemsByCordinates } from "../services/itemService"
 import { colors } from "../styles/colors"
 import { globalStyle } from "../styles/globalStyles"
 import { ExistingItem } from "../types/Item"

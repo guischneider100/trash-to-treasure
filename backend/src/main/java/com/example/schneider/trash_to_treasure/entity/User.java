@@ -1,5 +1,6 @@
 package com.example.schneider.trash_to_treasure.entity;
 
+import java.time.Instant;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -8,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,6 +30,12 @@ public class User implements UserDetails {
     private String password;
 
     private String mobile;
+
+    @Column(name = "recovery_code_hash")
+    private String recoveryCodeHash;
+
+    @Column(name = "recovery_code_expires_at")
+    private Instant recoveryCodeExpiresAt;
 
     //Remove all related items from this user
     @OneToMany(mappedBy = "postedBy", cascade = CascadeType.REMOVE)
@@ -77,6 +85,22 @@ public class User implements UserDetails {
 
     public void setMobile(String mobile) {
         this.mobile = mobile;
+    }
+
+    public String getRecoveryCodeHash() {
+        return recoveryCodeHash;
+    }
+
+    public void setRecoveryCodeHash(String recoveryCodeHash) {
+        this.recoveryCodeHash = recoveryCodeHash;
+    }
+
+    public Instant getRecoveryCodeExpiresAt() {
+        return recoveryCodeExpiresAt;
+    }
+
+    public void setRecoveryCodeExpiresAt(Instant recoveryCodeExpiresAt) {
+        this.recoveryCodeExpiresAt = recoveryCodeExpiresAt;
     }
 
     public List<Item> getItems() {

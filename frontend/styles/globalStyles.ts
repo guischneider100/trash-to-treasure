@@ -69,7 +69,7 @@ export const globalStyle = StyleSheet.create({
 
   loginCard: {
     width: width * 0.85,
-    flex: 0.57,
+    flex: 0.65,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,

@@ -1,27 +1,72 @@
-import React, { createContext, useContext, ReactNode, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import { getMe } from "../services/userService";
+import { ExistingUser } from "../types/User";
+import { mapUserFromBackend } from "../utils/userMapper";
+import { AuthResponse } from "../types/Auth";
 
 interface AuthContextType {
-    logged: boolean;
-    signIn: () => void;
+    user: ExistingUser | null,
+    token: string,
+    signIn: (userLogged: AuthResponse, rememberUser: boolean) => void;
     signOut: () => void;
 }
 
-const AuthContext = createContext<AuthContextType>({
-    logged: false,
-    signIn: () => {},
-    signOut: () => {},
-})
+const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+    const context = useContext(AuthContext)
+
+    if (!context) {
+        throw new Error("useAuth must be used within AuthProvider")
+    }
+
+    return context;
+}
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-    const [logged, setLogged] = useState(false);
+    const [user, setUser] = useState<ExistingUser | null>(null)
+    const [token, setToken] = useState("")
 
-    const signIn = () => setLogged(true);
-    const signOut = () => setLogged(false);
+    const signIn = (userLogged: AuthResponse, rememberUser: boolean) => {
+        AsyncStorage.setItem("sessionToken", userLogged.token);
+        AsyncStorage.setItem("rememberUser", String(rememberUser));
+        setUser(userLogged.user)
+
+        console.log("Login: " + rememberUser)
+    };
+
+    const signOut = () => {
+        AsyncStorage.setItem("sessionToken", "");
+        setUser(null);
+    };
+
+    const loadSession = async () => {
+        const token = await AsyncStorage.getItem("sessionToken")
+        const rememberUser = await AsyncStorage.getItem("rememberUser")
+
+        if (!token)
+            return;
+
+        if (rememberUser === "false")
+            return;
+
+        try {
+            const user = await getMe()
+
+            setUser(user)
+            setToken(token)
+        } catch (error) {
+            AsyncStorage.setItem("sessionToken", "");
+        }
+    }
+
+    useEffect(() => {
+        loadSession();
+    }, [])
 
     return (
-        <AuthContext.Provider value={{ logged, signIn, signOut }}>
+        <AuthContext.Provider value={{ user, token, signIn, signOut }}>
             {children}
         </AuthContext.Provider>
     );
