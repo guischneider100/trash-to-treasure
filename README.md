@@ -1,5 +1,7 @@
 # TrashToTreasure 🗑️♻️💎
 
+[![Figma Design](https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white)](https://www.figma.com/deck/wXQAFhejtXve5XLKlIo8wI/Untitled?node-id=1-29&t=JLvfnGJKT72aJ2Si-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1)
+
 Trash to Treasure is a Full-Stack marketplace application designed to drive the circular economy by connecting people who want to discard items ("trash") with others who find value in them ("treasure"). The platform reduces waste and extends product lifecycles, turning environmental challenges into collaborative community opportunities.
 
 # Status 🧪
