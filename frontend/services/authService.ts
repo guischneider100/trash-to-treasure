@@ -1,4 +1,4 @@
-import { ResetPassword } from "../types/Auth"
+import { ChangePassword, ResetPassword } from "../types/Auth"
 import api from "./api"
 
 export const requestForgotPasswordCode = async (resetPassword: ResetPassword): Promise<void>  => {
@@ -12,3 +12,7 @@ export const verifyForgotPasswordCode = async (resetPassword: ResetPassword): Pr
 export const redefinePasswordAPI = async (resetPassword: ResetPassword): Promise<void> => {
     return (await api.patch<void>(`/auth/new-password`, resetPassword)).data;
 }
+
+export const changePassword = async(changePassword: ChangePassword): Promise<void> => {
+  const response = (await api.post<void>(`/auth/change-password`, changePassword)).data
+};

@@ -51,7 +51,7 @@ public class UserController {
     @DeleteMapping("/{id}")
     @PreAuthorize("#id == authentication.principal.id")
     public ResponseEntity<UserDTO.Response> delete(@PathVariable Long id){
-        userService.deleteById(id);
+        userService.deleteById();
         return ResponseEntity.noContent().build();
     }
 }

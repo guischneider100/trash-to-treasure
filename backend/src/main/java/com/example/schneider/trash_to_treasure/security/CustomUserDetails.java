@@ -1,22 +1,26 @@
 package com.example.schneider.trash_to_treasure.security;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.example.schneider.trash_to_treasure.entity.Roles;
 
 public class CustomUserDetails implements UserDetails {
     
     private Long id;
     private String username;
     private String password;
-    private Collection<? extends GrantedAuthority> authorities;
+    private Roles role;
 
-    public CustomUserDetails(Long id, String username, String password, Collection<? extends GrantedAuthority> authorities) {
+    public CustomUserDetails(Long id, String username, String password, Roles role) {
         this.id = id;
         this.username = username;
         this.password = password;
-        this.authorities = authorities;
+        this.role = role;
     }
 
     public Long getId() {
@@ -35,6 +39,8 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
+        return List.of(
+            new SimpleGrantedAuthority(role.name())
+        );
     }
 }

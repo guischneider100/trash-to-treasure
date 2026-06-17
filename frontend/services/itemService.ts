@@ -1,7 +1,6 @@
 import api from "./api";
 import { ExistingItem, NewItem } from "../types/Item";
 import { mapItemFromBackend } from "../utils/itemMapper";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const getAllItems = async (): Promise<ExistingItem[]> => {
   return (await api.get<ExistingItem[]>("/item/all")).data.map(mapItemFromBackend);

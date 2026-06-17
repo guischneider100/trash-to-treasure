@@ -62,11 +62,6 @@ public class ItemFavoriteService {
                                      .collect(Collectors.toList());
     }
 
-    public void deleteByItem(Item item, User user){
-        if(retrieveItemFavorites(item).getIsFavorite())
-            itemFavoriteRepository.deleteById(itemFavoriteRepository.findByItemIdAndUserId(item.getId(), user.getId()).get().getId());
-    }
-
     //Check and set if the item is favorite to the user or not
     public ItemDTO.Response retrieveItemFavorites(Item item){
         Authentication auth =  SecurityContextHolder.getContext().getAuthentication();
@@ -74,6 +69,7 @@ public class ItemFavoriteService {
 
         ItemDTO.Response dto = itemMapper.toDTO(item);
         dto.setIsFavorite(itemFavoriteRepository.findByItemIdAndUserId(item.getId(), user.getId()).isPresent());
+        
         return dto;
     }
 }

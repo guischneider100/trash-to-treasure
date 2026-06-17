@@ -171,12 +171,14 @@ public class ItemDTO {
 
     public static class Update {
     
+        @NotBlank
         private String title;
 
         private String description;
 
         private String photoUrl;
 
+        @NotNull
         private ItemCondition condition;
         
         public String getTitle() {

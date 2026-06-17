@@ -44,7 +44,7 @@ export default function UserScreen({ navigation }) {
           <Pressable onPress={callChangePassword}>
             <View style={{ width: '100%', borderBottomColor: colors.tertiary, borderBottomWidth: 1, alignItems: 'center', flexDirection: 'row', paddingLeft: 20 }}>
               <Ionicons name="key-outline" size={20} color={colors.tertiary} />
-              <TextInput placeholder='Password' placeholderTextColor="#999" style={{ width: '100%', height: 55, fontFamily: 'Fredoka_400Regular', paddingLeft: 10 }} editable={false} />
+              <TextInput placeholder='Change your password' placeholderTextColor="#999" style={{ width: '100%', height: 55, fontFamily: 'Fredoka_400Regular', paddingLeft: 10 }} editable={false} />
             </View>
           </Pressable>
 

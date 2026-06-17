@@ -43,9 +43,6 @@ public class SecurityConfig {
                                    .requestMatchers(HttpMethod.POST, "/api/item").permitAll() //Allows POST from items
                                    .requestMatchers("/actuator/health").permitAll()
                                    
-                                   // -- ** Protected endpoints ** --
-                                   .requestMatchers("/api/item/**").authenticated() //Protects all info about items
-                                   .requestMatchers("/api/item_favorite/**").authenticated() //Protects all info about favorites
                                    .anyRequest().authenticated()) //Requests token for the rest
             
                                  //Authorizes any request (DEV ONLY)

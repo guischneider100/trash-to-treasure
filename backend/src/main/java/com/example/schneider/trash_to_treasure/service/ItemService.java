@@ -14,7 +14,6 @@ import org.springframework.web.server.ResponseStatusException;
 import com.example.schneider.trash_to_treasure.dto.ItemDTO;
 import com.example.schneider.trash_to_treasure.entity.Item;
 import com.example.schneider.trash_to_treasure.mapper.ItemMapper;
-import com.example.schneider.trash_to_treasure.repository.ItemFavoriteRepository;
 import com.example.schneider.trash_to_treasure.repository.ItemRepository;
 import com.example.schneider.trash_to_treasure.security.CustomUserDetails;
 
@@ -128,8 +127,6 @@ public class ItemService {
 
         if(!item.getPostedBy().equals(userService.getByIdOrThrow(user.getId()))) 
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid Credentials");
-
-        itemFavoriteService.deleteByItem(item, userService.getByIdOrThrow(user.getId()));
 
         itemRepository.deleteById(id);
     }

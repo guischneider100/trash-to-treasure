@@ -4,6 +4,7 @@ import { getMe } from "../services/userService";
 import { ExistingUser } from "../types/User";
 import { mapUserFromBackend } from "../utils/userMapper";
 import { AuthResponse } from "../types/Auth";
+import * as SecureStore from 'expo-secure-store';
 
 interface AuthContextType {
     user: ExistingUser | null,
@@ -29,20 +30,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [token, setToken] = useState("")
 
     const signIn = (userLogged: AuthResponse, rememberUser: boolean) => {
-        AsyncStorage.setItem("sessionToken", userLogged.token);
+        SecureStore.setItemAsync("sessionToken", userLogged.token)
         AsyncStorage.setItem("rememberUser", String(rememberUser));
         setUser(userLogged.user)
-
-        console.log("Login: " + rememberUser)
     };
 
     const signOut = () => {
-        AsyncStorage.setItem("sessionToken", "");
+        SecureStore.deleteItemAsync("sessionToken");
         setUser(null);
     };
 
     const loadSession = async () => {
-        const token = await AsyncStorage.getItem("sessionToken")
+        const token = await SecureStore.getItem("sessionToken")
         const rememberUser = await AsyncStorage.getItem("rememberUser")
 
         if (!token)
@@ -57,7 +56,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             setUser(user)
             setToken(token)
         } catch (error) {
-            AsyncStorage.setItem("sessionToken", "");
+            SecureStore.deleteItemAsync("sessionToken");
         }
     }
 
