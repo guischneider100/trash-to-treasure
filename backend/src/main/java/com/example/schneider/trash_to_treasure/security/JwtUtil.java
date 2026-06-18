@@ -27,14 +27,14 @@ public class JwtUtil {
     }
 
     //Generates the token for the user
-    public String generateToken(String username){
+    public String generateToken(String email){
         Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, username);
+        return createToken(claims, email);
     }
     
     //Creates the token with claims and expiration time
     private String createToken(Map<String, Object> claims, String subject){
-        long expirationTime = 1000 * 60 * 60 * 10; //10 hours
+        long expirationTime = 1000 * 60 * 60 * 24 * 7; //7 days
         return Jwts.builder()
                    .setClaims(claims)
                    .setSubject(subject)

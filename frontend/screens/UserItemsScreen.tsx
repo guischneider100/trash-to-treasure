@@ -9,7 +9,7 @@ import ItemCard from '../components/ItemListCard';
 import { useFocusEffect } from '@react-navigation/native';
 
 // @ts-ignore
-export default function UserItemScreen({ }) {
+export default function UserItemScreen() {
 
   const [allItems, setAllItems] = useState<ExistingItem[]>([]);
   const [refreshing, setRefreshing] = useState(false);

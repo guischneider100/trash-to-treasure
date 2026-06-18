@@ -14,6 +14,8 @@ export default function CreateAccountScreen({ navigation }) {
 
     const { signIn } = useAuth()
 
+    const rememberUser = false
+
     const [isFocused, setFocused] = useState<string | null>(null);
 
     const [email, setEmail] = useState("");
@@ -26,7 +28,7 @@ export default function CreateAccountScreen({ navigation }) {
 
         await createUser(newUser).then(
             (response) => {
-                signIn()
+                signIn(response, rememberUser)
             }
         ).catch(
             (error) =>

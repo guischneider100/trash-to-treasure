@@ -1,13 +1,16 @@
-import { ExistingUser, NewUser } from "../types/User";
+import { AuthResponse, ChangePassword } from "../types/Auth";
+import { ExistingUser, LoginUser, NewUser } from "../types/User";
 import api from "./api";
 
-//create User
-export const createUser = async (user: NewUser): Promise<ExistingUser> => {
-    const response = await api.post<ExistingUser>("/auth/register", user);
-    return response.data;
-}
+export const createUser = async (user: NewUser): Promise<AuthResponse> => {
+  return (await api.post<AuthResponse>("/auth/register", user)).data;
+};
 
-export const getUserById = async (id: number): Promise<ExistingUser> => {
-    const response = await api.get<ExistingUser>(`/user/${id}`);
-    return response.data;
-}
+export const login = async (user: LoginUser): Promise<AuthResponse> => {
+  return (await api.post<AuthResponse>(`/auth/login`, user)).data;
+};
+
+export const getMe = async(): Promise<ExistingUser> => {
+  const response = await api.get<ExistingUser>(`/auth/me`);
+  return response.data;
+};

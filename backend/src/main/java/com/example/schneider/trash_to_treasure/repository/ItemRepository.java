@@ -15,7 +15,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     @Query("SELECT i FROM Item i WHERE i.latitude BETWEEN :minLat AND :maxLat AND i.longitude BETWEEN :minLon AND :maxLong")
     List<Item> findByCordinates(@Param("minLat") Double minLat, @Param("maxLat") Double maxLat, @Param("minLon") Double minLon, @Param("maxLong") Double maxLong);
 
-    List<Item> findByPostedBy(Optional<User> postedBy);
+    List<Item> findByPostedBy(User postedBy);
 
-    List<Item> findByCollectedBy(Optional<User> collectBy);
+    List<Item> findByCollectedBy(User collectBy);
 }

@@ -1,7 +1,9 @@
 package com.example.schneider.trash_to_treasure.entity;
 
 import java.time.Instant;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -11,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -21,6 +24,7 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String title;
 
     private String description;
@@ -32,10 +36,13 @@ public class Item {
     @Column(nullable = false)
     private ItemCondition condition;
     
+    @Column(nullable = false)
     private Double latitude;
 
+    @Column(nullable = false)
     private Double longitude;
 
+    @Column(nullable = false)
     private Instant postedAt = Instant.now();
 
     @ManyToOne
@@ -45,6 +52,9 @@ public class Item {
     @ManyToOne
     @JoinColumn(name = "collected_by", nullable = true)
     private User collectedBy;
+
+    @OneToMany(mappedBy = "item", cascade = CascadeType.REMOVE)
+    private List<ItemFavorite> itemFavorites;
 
     public Long getId() {
         return id;

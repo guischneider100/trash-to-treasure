@@ -1,14 +1,13 @@
 package com.example.schneider.trash_to_treasure.entity;
 
-import java.util.Collection;
-import java.util.Collections;
+import java.time.Instant;
 import java.util.List;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -17,27 +16,33 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "users")
-public class User implements UserDetails {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true, nullable = false)
     private String email;
 
+    @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
     private String mobile;
+
+    @Column(name = "recovery_code_hash")
+    private String recoveryCodeHash;
+
+    @Column(name = "recovery_code_expires_at")
+    private Instant recoveryCodeExpiresAt;
 
     //Remove all related items from this user
     @OneToMany(mappedBy = "postedBy", cascade = CascadeType.REMOVE)
     private List<Item> items;
 
-    //Returns the authorities (roles or permissions) granted to the user.
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.<GrantedAuthority>emptyList();
-    }
+    @Enumerated(EnumType.STRING)
+    private Roles role;
     
     public Long getId() {
         return id;
@@ -79,11 +84,35 @@ public class User implements UserDetails {
         this.mobile = mobile;
     }
 
+    public String getRecoveryCodeHash() {
+        return recoveryCodeHash;
+    }
+
+    public void setRecoveryCodeHash(String recoveryCodeHash) {
+        this.recoveryCodeHash = recoveryCodeHash;
+    }
+
+    public Instant getRecoveryCodeExpiresAt() {
+        return recoveryCodeExpiresAt;
+    }
+
+    public void setRecoveryCodeExpiresAt(Instant recoveryCodeExpiresAt) {
+        this.recoveryCodeExpiresAt = recoveryCodeExpiresAt;
+    }
+
     public List<Item> getItems() {
         return items;
     }
 
     public void setItems(List<Item> items) {
         this.items = items;
+    }
+
+    public Roles getRole() {
+        return role;
+    }
+
+    public void setRole(Roles role) {
+        this.role = role;
     }
 }

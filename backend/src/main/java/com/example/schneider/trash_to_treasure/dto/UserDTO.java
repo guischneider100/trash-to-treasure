@@ -1,6 +1,6 @@
 package com.example.schneider.trash_to_treasure.dto;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 
 public class UserDTO {
     
@@ -8,7 +8,6 @@ public class UserDTO {
         
         private Long id;
         private String email;
-        private String password;
         private String mobile;
 
         public Long getId() {
@@ -27,14 +26,6 @@ public class UserDTO {
             this.email = email;
         }
 
-        public String getPassword() {
-            return password;
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
-        }
-
         public String getMobile() {
             return mobile;
         }
@@ -46,13 +37,13 @@ public class UserDTO {
 
     public static class Create {
     
-        @NotNull
+        @NotBlank
         private String email;
 
-        @NotNull
+        @NotBlank
         private String password;
 
-        @NotNull
+        @NotBlank
         private String mobile;
 
         public String getEmail() {
