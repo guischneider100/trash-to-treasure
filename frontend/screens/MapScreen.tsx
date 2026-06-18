@@ -1,7 +1,6 @@
 import { Linking, Pressable, View } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE, Region } from "react-native-maps";
 import { useEffect, useMemo, useRef, useState } from "react";
-import * as Location from "expo-location";
 import { Text } from "react-native";
 import { DARK_MAP_STYLE, globalStyle } from "../styles/globalStyles";
 import { Image } from "react-native";
@@ -94,7 +93,7 @@ export default function MapScreen({
 
   const accessItem = (item?: ExistingItem) => {
     if (!item) return;
-    navigation.navigate("ItemFromStreet", { from: "Home", item });
+    navigation.navigate("ItemFromStreet", { from: "ItemFromStreet", item });
   };
 
   return (
