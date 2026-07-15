@@ -40,11 +40,11 @@ public class AuthController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<UserDTO.Response> me(Authentication authentication) {
+    public ResponseEntity<UserDTO.Response> meRetrieve(Authentication authentication) {
         CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
-        UserDTO.Response userCreated = userService.findByEmail(user.getUsername());
+        UserDTO.Response userResponse = userService.findByEmail(user.getUsername());
 
-        return ResponseEntity.ok(userCreated);
+        return ResponseEntity.ok(userResponse);
     }
 
     @PostMapping("/change-password")

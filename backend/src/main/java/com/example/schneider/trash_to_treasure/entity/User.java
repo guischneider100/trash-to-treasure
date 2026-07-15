@@ -28,6 +28,9 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    private Roles role;
+
     @Column(nullable = false)
     private String mobile;
 
@@ -37,12 +40,14 @@ public class User {
     @Column(name = "recovery_code_expires_at")
     private Instant recoveryCodeExpiresAt;
 
-    //Remove all related items from this user
+    @Column(name = "deleted_at")
+    private Instant deletedAt;
+
     @OneToMany(mappedBy = "postedBy", cascade = CascadeType.REMOVE)
     private List<Item> items;
 
-    @Enumerated(EnumType.STRING)
-    private Roles role;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<ItemFavorite> itemFavorites;
     
     public Long getId() {
         return id;
@@ -76,6 +81,14 @@ public class User {
         this.password = password;
     }
 
+    public Roles getRole() {
+        return role;
+    }
+
+    public void setRole(Roles role) {
+        this.role = role;
+    }
+
     public String getMobile() {
         return mobile;
     }
@@ -100,19 +113,19 @@ public class User {
         this.recoveryCodeExpiresAt = recoveryCodeExpiresAt;
     }
 
+    public Instant getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(Instant deletedAt) {
+        this.deletedAt = deletedAt;
+    }
+
     public List<Item> getItems() {
         return items;
     }
 
     public void setItems(List<Item> items) {
         this.items = items;
-    }
-
-    public Roles getRole() {
-        return role;
-    }
-
-    public void setRole(Roles role) {
-        this.role = role;
     }
 }

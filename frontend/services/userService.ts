@@ -14,3 +14,8 @@ export const getMe = async(): Promise<ExistingUser> => {
   const response = await api.get<ExistingUser>(`/auth/me`);
   return response.data;
 };
+
+export const deleteAccount = async(): Promise<void> => {
+  const response = await api.delete<void>(`/user/me`);
+  return response.data;
+};

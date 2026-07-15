@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
-import { Image, Pressable, TextInput, View } from 'react-native';
+import { Alert, Image, Pressable, TextInput, View } from 'react-native';
 import ElipseMenu from '../components/ElipseMenu';
 import { useAuth } from '../context/AuthContext';
 import { colors } from '../styles/colors';
