@@ -3,6 +3,7 @@ package com.example.schneider.trash_to_treasure.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -52,6 +53,12 @@ public class UserController {
     @PreAuthorize("#id == authentication.principal.id")
     public ResponseEntity<UserDTO.Response> delete(@PathVariable Long id){
         userService.deleteById();
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/me")
+    public ResponseEntity<UserDTO.Response> meDelete(Authentication authentication) {
+        userService.softDeleteById();
         return ResponseEntity.noContent().build();
     }
 }

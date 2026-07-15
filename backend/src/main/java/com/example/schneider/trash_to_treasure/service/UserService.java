@@ -121,6 +121,17 @@ public class UserService {
         userRepository.deleteById(user.getId());
     }
 
+    public void softDeleteById() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails authenticatedUser = (CustomUserDetails) auth.getPrincipal();
+
+        User user = userRepository.findById(authenticatedUser.getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials"));
+
+        user.setDeletedAt(Instant.now());
+
+        userRepository.save(user);
+    }
+
     public void forgotPassword(String email) {
         User existingUser = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials"));

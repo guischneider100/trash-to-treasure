@@ -7,40 +7,54 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.example.schneider.trash_to_treasure.entity.Roles;
+import com.example.schneider.trash_to_treasure.entity.User;
 
 public class CustomUserDetails implements UserDetails {
     
-    private Long id;
-    private String username;
-    private String password;
-    private Roles role;
+    private User user;
 
-    public CustomUserDetails(Long id, String username, String password, Roles role) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.role = role;
+    public CustomUserDetails(User user) {
+        this.user = user;
     }
 
     public Long getId() {
-        return id;
+        return user.getId();
     }
 
     @Override
     public String getUsername() {
-        return username;
+        return user.getUsername();
     }
 
     @Override
     public String getPassword() {
-        return password;
+        return user.getPassword();
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(
-            new SimpleGrantedAuthority(role.name())
+            new SimpleGrantedAuthority(user.getRole().name())
         );
+    }
+
+    @Override
+    public boolean isEnabled(){
+        return user.getDeletedAt() == null;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
     }
 }
